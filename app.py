@@ -22,6 +22,7 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.String(100), unique=True)
@@ -55,9 +56,6 @@ def send_email(message, adress):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-@app.route('/main')
-def main():
-    return render_template('N_1.html', psw1='', psw2='')
 
 
 
@@ -105,7 +103,6 @@ def send():
         if email == '':
             return render_template('password.html', flag=False, err="Введите почту")
         if unic_code == '':
-            flag = True
             CODE = randint(1000, 9999)
             message = (f'''Здравствуйте!
             Вы получили это письмо, потому что мы получили запрос на сброс пароля для вашей учетной записи.
@@ -120,24 +117,15 @@ def send():
             if int(unic_code) == CODE:
                 CODE = 0
                 session['email'] = email
-                return redirect(url_for('main'))
+                return redirect(url_for('index'))
     else:
         return render_template('password.html', flag=False, err="", email=email)
 
 
-# @app.route('/profile')
-# def profile():
-#     r = ""
-#     if current_user.role == 0:
-#         r = "Студент"
-#     elif current_user.role == 1:
-#         r = "Наставник"
-#     elif current_user.role == 2:
-#         r = "Администратор"
-#
-#     return render_template('profile.html', name=current_user.name, surname=current_user.surname,
-#                            surname1=current_user.surname1, email=current_user.email, image='img/' + current_user.image,
-#                            role=r)
+@app.route('/profile')
+def profile():
+    return render_template('profile.html', name=current_user.name, surname=current_user.surname,
+                           age=current_user.age, email=current_user.email, image='static/image/profile_rev.png')
 
 @app.route('/entrance', methods=['GET', 'POST'])
 def login():
@@ -150,20 +138,25 @@ def login():
         else:
             remember = False
         if not email or not password:
-            return render_template('entrance.html', err='Заполнены не все поля')
+            return render_template('entrance.html', err='Заполнены не все поля', email=email,
+                                   password=password, remember=remember)
         if '@' not in email:
-            return render_template('entrance.html', err='Неправильно указана почта')
+            return render_template('entrance.html', err='Неправильно указана почта', email=email,
+                                   password=password, remember=remember)
         if len(password) < 8:
-            return render_template('entrance.html', err='Слабый пароль')
+            return render_template('entrance.html', err='Слабый пароль', email=email,
+                                   password='', remember=remember)
         user = User.query.filter_by(email=email).first()
         if not user:
-            return render_template('entrance.html', err='Почта не зарегистрирована')
+            return render_template('entrance.html', err='Почта не зарегистрирована', email=email,
+                                   password=password, remember=remember)
         user = User.query.filter((User.email == email) & (User.password == password)).first()
         if user:
             login_user(user, remember=remember)
-            return redirect(url_for('main'))
+            return redirect(url_for('index'))
         else:
-            return render_template('entrance.html', err='Проверьте данные')
+            return render_template('entrance.html', err='Проверьте данные', email=email,
+                                   password=password, remember=remember)
     else:
         return render_template('entrance.html', err='')
 
@@ -178,13 +171,17 @@ def signup():
         password1 = request.form.get('password1')
         age = request.form.get('age')
         if not email or not name or not surname or not password or not password1 or not age:
-            return render_template('n_3.html', err="Заполнены не все поля")
+            return render_template('n_3.html', err="Заполнены не все поля", email=email,
+                                   name=name, surname=surname, password=password, password1=password1, age=age)
         if '@' not in email:
-            return render_template('n_3.html', err="Некорректная почта")
+            return render_template('n_3.html', err="Некорректная почта", email=email,
+                                   name=name, surname=surname, password=password, password1=password1, age=age)
         if len(password) < 8:
-            return render_template('n_3.html', err="Пароль слишком короткий")
+            return render_template('n_3.html', err="Пароль слишком короткий", email=email,
+                                   name=name, surname=surname, password='', password1='', age=age)
         if password != password1:
-            return render_template('n_3.html', err="Пароли не совпадают")
+            return render_template('n_3.html', err="Пароли не совпадают", email=email,
+                                   name=name, surname=surname, password='', password1='', age=age)
         user = User.query.filter_by(
             email=email).first()
         if user:
