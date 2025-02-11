@@ -61,6 +61,14 @@ def main():
 
 
 
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        pass
+    else:
+        return render_template('index.html')
+
+
 @app.route('/new_password', methods=['GET', 'POST'])
 def new_password():
     if request.method == 'POST':
@@ -131,7 +139,7 @@ def send():
 #                            surname1=current_user.surname1, email=current_user.email, image='img/' + current_user.image,
 #                            role=r)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/entrance', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form.get('mail')
