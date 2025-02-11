@@ -60,7 +60,7 @@
             </div>
 
             <div class="form-remember">
-                <a href="{{ url_for('new_password') }}">Забыли пароль?</a>
+                <a href="{{ url_for('new_password', email=email) }}">Забыли пароль?</a>
             </div>
             <div class="form-remember">
                 <a href="{{ url_for('signup') }}">Не зарегестрированы?</a>

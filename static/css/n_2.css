@@ -58,6 +58,10 @@ nav li a:hover{
     margin-right: 100px;
     margin-left: auto;
 }
+svg {
+    display: block; /* Делаем элемент блочным, чтобы margin сработал */
+    margin: 40px auto 0; /* Отступ сверху 40px и выравнивание по центру */
+}
 .main h1{
     font-size: 40px;
     padding-top: 250px;

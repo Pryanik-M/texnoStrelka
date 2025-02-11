@@ -39,7 +39,7 @@
     <main>
         <div class="circle"></div>
         <div class="register-form-container">
-            <form method="POST" action="/signup">
+            <form method="POST">
             <h1 class="form-title">Регистрация</h1>
             <div class="form-fields">
                 <div class="form-field">
@@ -52,7 +52,7 @@
                     <input type="text" name="surname" placeholder="Фамилия">
                 </div>
                 <div class="form-field">
-                    <input type="text" name="surname" placeholder="Возраст">
+                    <input type="text" name="age" placeholder="Возраст">
                 </div>
                 <div class="form-field">
                     <input type="password" name="password" placeholder="Пароль">
@@ -68,6 +68,7 @@
             <div class="form-buttons">
                 <button class="button">Зарегистрироваться</button>
             </div>
+                <p>{{ err }}</p>
             </form>
         </div>
     </main>

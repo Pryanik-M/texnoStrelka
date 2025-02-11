@@ -55,6 +55,11 @@ def send_email(message, adress):
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+@app.route('/main')
+def main():
+    return render_template('N_1.html', psw1='', psw2='')
+
+
 
 @app.route('/new_password', methods=['GET', 'POST'])
 def new_password():
@@ -74,7 +79,7 @@ def new_password():
         if user != '':
             user.password = psw1
             db.session.commit()
-        return redirect(url_for('login'))
+        return redirect(url_for('send', email=email))
     else:
         return render_template('new_password.html', psw1='', psw2='')
 
@@ -84,9 +89,9 @@ CODE = 0
 
 @app.route('/send', methods=['GET', 'POST'])
 def send():
+    email = request.args.get('email')
     if request.method == 'POST':
         global CODE
-        print(request.form)
         email = request.form['mail']
         unic_code = request.form['unik_cod']
         if email == '':
@@ -101,84 +106,34 @@ def send():
 
             С Уважением,
             EdTech платформа''')
-            print(send_email(message=message, adress=email))
+            send_email(message=message, adress=email)
             return render_template('password.html', flag=True, err="Код отправлен", email=email)
         else:
             if int(unic_code) == CODE:
                 CODE = 0
                 session['email'] = email
-                return redirect(url_for('new_password'))
+                return redirect(url_for('main'))
     else:
-        return render_template('password.html', flag=False, err="")
+        return render_template('password.html', flag=False, err="", email=email)
 
 
-@app.route('/profile')
-@login_required
-def profile():
-    r = ""
-    if current_user.role == 0:
-        r = "Студент"
-    elif current_user.role == 1:
-        r = "Наставник"
-    elif current_user.role == 2:
-        r = "Администратор"
-
-    return render_template('profile.html', name=current_user.name, surname=current_user.surname,
-                           surname1=current_user.surname1, email=current_user.email, image='img/' + current_user.image,
-                           role=r)
-
-
-@app.route('/edit_profile', methods=['GET', 'POST'])
-@login_required
-def edit_profile():
-    if request.method == 'POST':
-        print(request.form)
-        if 'name' in tuple(request.form):
-            name = request.form.get('name')
-            cu = User.query.filter_by(id=current_user.id).first()
-            cu.name = name
-            db.session.commit()
-        if 'surname' in tuple(request.form):
-            surname = request.form.get('surname')
-            cu = User.query.filter_by(id=current_user.id).first()
-            cu.surname = surname
-            db.session.commit()
-        if 'surname1' in tuple(request.form):
-            surname1 = request.form.get('surname1')
-            cu = User.query.filter_by(id=current_user.id).first()
-            cu.surname1 = surname1
-            db.session.commit()
-        if 'upload_image' in tuple(request.form):
-            file = request.files['file']
-            if file.filename != '':
-
-                if file.filename.split(".")[-1].upper() not in "PNG, JPEG, GIF, RAW, TIFF, BMP, PSD":
-                    return render_template('edit_profile.html', name=current_user.name, surname=current_user.surname,
-                                           surname1=current_user.surname1, email=current_user.email,
-                                           image='img/' + current_user.image, error="Ошибка расширения")
-                cu = User.query.filter_by(id=current_user.id).first()
-                cu.image = file.filename
-                db.session.commit()
-                # безопасно извлекаем оригинальное имя файла
-                filename = file.filename
-                # сохраняем файл
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return render_template('edit_profile.html', name=current_user.name, surname=current_user.surname,
-                                   surname1=current_user.surname1, email=current_user.email,
-                                   image='img/' + current_user.image)
-        else:
-            return redirect(url_for('profile'))
-    else:
-
-        return render_template('edit_profile.html', name=current_user.name, surname=current_user.surname,
-                               surname1=current_user.surname1, email=current_user.email,
-                               image='img/' + current_user.image)
-
+# @app.route('/profile')
+# def profile():
+#     r = ""
+#     if current_user.role == 0:
+#         r = "Студент"
+#     elif current_user.role == 1:
+#         r = "Наставник"
+#     elif current_user.role == 2:
+#         r = "Администратор"
+#
+#     return render_template('profile.html', name=current_user.name, surname=current_user.surname,
+#                            surname1=current_user.surname1, email=current_user.email, image='img/' + current_user.image,
+#                            role=r)
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        print(request.form)
         email = request.form.get('mail')
         password = request.form.get('password')
         remember = request.form.get('rememder')
@@ -198,7 +153,7 @@ def login():
         user = User.query.filter((User.email == email) & (User.password == password)).first()
         if user:
             login_user(user, remember=remember)
-            return redirect(url_for('index'))
+            return redirect(url_for('main'))
         else:
             return render_template('entrance.html', err='Проверьте данные')
     else:
@@ -214,8 +169,6 @@ def signup():
         password = request.form.get('password')
         password1 = request.form.get('password1')
         age = request.form.get('age')
-        role = 0
-        image = 'profile-rev.png'
         if not email or not name or not surname or not password or not password1 or not age:
             return render_template('n_3.html', err="Заполнены не все поля")
         if '@' not in email:
@@ -228,12 +181,10 @@ def signup():
             email=email).first()
         if user:
             return render_template('n_3.html', err="Пользователь с такой почтой уже зарегистрирован")
-        new_user = User(email=email, name=name, surname=surname, surname1=surname1, password=password, role=int(role),
-                        image=image)
-
+        new_user = User(email=email, name=name, surname=surname, age=age, password=password)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('profile'))
+        return redirect(url_for('send', email=email))
     else:
         return render_template('n_3.html', err="")
 
@@ -242,7 +193,7 @@ def signup():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
