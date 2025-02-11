@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/css/base.css" type="text/css">
+    {% block styles %}{% endblock %}
+    <title>KinoStrelka</title>
+</head>
+<body>
+<header>
+    <div class="header">
+        <div class="header__logo">
+            <img src="static/image/logo.svg" alt="Логотип">
+        </div>
+        <nav>
+            <div class="header__menu">
+                <a href="/home" class="header__link">Главная</a>
+                <a href="/recomendations" class="header__link">Рекомендации</a>
+            </div>
+        </nav>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Поиск фильмов">
+            <button class="search-button"><img src="static/search_logo.svg" alt="Логотип поиска"></button>
+        </div>
+    </div>
+</header>
+<main>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</main>
+<footer>
+    <div class="footer">
+
+    </div>
+</footer>
+</body>
+</html>

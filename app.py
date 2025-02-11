@@ -56,6 +56,14 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        pass
+    else:
+        return render_template('index.html')
+
+
 @app.route('/new_password', methods=['GET', 'POST'])
 def new_password():
     if request.method == 'POST':
@@ -175,7 +183,7 @@ def edit_profile():
                                image='img/' + current_user.image)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/entrance', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         print(request.form)
