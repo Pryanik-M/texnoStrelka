@@ -64,7 +64,11 @@ def index():
     if request.method == 'POST':
         pass
     else:
-        return render_template('index.html')
+        if current_user.is_authenticated:
+            flag_user = True
+        else:
+            flag_user = False
+        return render_template('index.html', flag=flag_user)
 
 
 @app.route('/new_password', methods=['GET', 'POST'])
@@ -78,8 +82,6 @@ def new_password():
             return render_template('new_password.html', err='Пароль слишком маленький', psw1=psw1, psw2=psw2)
         if psw1 != psw2:
             return render_template('new_password.html', err='Пароли различаются', psw1=psw1, psw2=psw2)
-        # добавить условие для сложностей паролей
-        # return render_template('new_password.html', psw1='', psw2='')
         email = session.get('email', None)
         user = User.query.filter_by(email=email).first()
         if user != '':
@@ -126,6 +128,10 @@ def send():
 def profile():
     return render_template('profile.html', name=current_user.name, surname=current_user.surname,
                            age=current_user.age, email=current_user.email, image='static/image/profile_rev.png')
+
+@app.route('/watch')
+def movie():
+    return render_template('movie.html')
 
 @app.route('/entrance', methods=['GET', 'POST'])
 def login():
@@ -198,7 +204,7 @@ def signup():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

@@ -1,0 +1,10 @@
+video{
+    display: block;
+    margin: 0 auto;
+    width: 720px;
+    height: 480px;
+
+}
+h1{
+    text-align: center;
+}

@@ -16,7 +16,13 @@
             <div class="header__menu">
                 <a href="/home" class="header__link">Главная</a>
                 <a href="/recomendations" class="header__link">Рекомендации</a>
-                <a href="{{ url_for('login') }}" class="header__link">Вход</a>
+                {% if flag == False %}
+                    <a href="{{ url_for('login') }}" class="header__link">Вход</a>
+                    <a href="{{ url_for('signup') }}" class="header__link">Регистрация</a>
+                {% else %}
+                    <a href="{{ url_for('profile') }}" class="header__link">Профиль</a>
+                    <a href="{{ url_for('logout') }}" class="header__link">Выход</a>
+                {% endif %}
             </div>
         </nav>
         <div class="search-container">
