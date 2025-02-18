@@ -71,6 +71,14 @@ def index():
         return render_template('index.html', flag=flag_user)
 
 
+@app.route('/recomendations', methods=['GET', 'POST'])
+def recomendations():
+    if request.method == 'POST':
+        pass
+    else:
+        return render_template('recomendations.html')
+
+
 @app.route('/new_password', methods=['GET', 'POST'])
 def new_password():
     if request.method == 'POST':
