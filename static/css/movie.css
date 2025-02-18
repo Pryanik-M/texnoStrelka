@@ -1,10 +1,8 @@
-video{
-    display: block;
-    margin: 0 auto;
-    width: 720px;
-    height: 480px;
-
-}
-h1{
-    text-align: center;
+video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: fixed;
+  top: 0;
+  left: 0;
 }

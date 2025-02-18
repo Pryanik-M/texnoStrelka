@@ -129,9 +129,10 @@ def profile():
     return render_template('profile.html', name=current_user.name, surname=current_user.surname,
                            age=current_user.age, email=current_user.email, image='static/image/profile_rev.png')
 
-@app.route('/watch')
+@app.route('/movie')
 def movie():
-    return render_template('movie.html')
+    video_path = request.args.get('name', 'videos/primer.mp4')
+    return render_template('movie.html', name=video_path)
 
 @app.route('/entrance', methods=['GET', 'POST'])
 def login():
