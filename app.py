@@ -45,7 +45,7 @@ def send_email(message, adress):
     try:
         server.login(sender, password)
         msg = MIMEText(message)
-        msg["Subject"] = "Восстановление пароля"
+        msg["Subject"] = "Подтверждение почты"
         server.sendmail(sender, adress, msg.as_string())
         return "The message was sent successfully!"
     except Exception as _ex:
@@ -107,12 +107,12 @@ def send():
         if unic_code == '':
             CODE = randint(1000, 9999)
             message = (f'''Здравствуйте!
-            Вы получили это письмо, потому что мы получили запрос на сброс пароля для вашей учетной записи.
-            Специальный код для сброса пароля: {CODE}
-            Если вы не запрашивали сброс пароля, никаких дальнейших действий не требуется.
+            Вы получили это письмо, потому что мы получили запрос на подтверждения почты для вашей учетной записи.
+            Специальный код: {CODE}
+            Если вы не запрашивали код, никаких дальнейших действий не требуется.
 
             С Уважением,
-            EdTech платформа''')
+            KinoStrelka платформа''')
             send_email(message=message, adress=email)
             return render_template('password.html', flag=True, err="Код отправлен", email=email)
         else:

@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/n_3.2.css') }}">
-<head>
-    <meta charset="UTF-8">
+{% extends "base.html" %}
+
+{% block styles %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>Document</title>
-    <link rel="stylesheet" href="n_3.2.css">
-</head>
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="../static/css/n_3.2.css">
+{% endblock %}
 
-<body>
-    <main>
-        <div class="circle"></div>
-        <div class="register-form-container">
-            <form method="POST" action="/signup">
+{% block content %}
+    <div class="register-form-container">
+        <form method="POST" action="/signup">
             <h1 class="form-title">Регистрация</h1>
             <div class="form-fields">
                 <div class="form-field">
@@ -36,13 +32,10 @@
                 <div class="form-field">
                     <input type="password" name="password1" placeholder="Повторите пароль">
                 </div>
-           </div>
+            </div>
             <div class="form-buttons">
                 <button class="button">Зарегистрироваться</button>
             </div>
-            </form>
-        </div>
-    </main>
-</body>
-
-</html>
+        </form>
+    </div>
+{% endblock %}
