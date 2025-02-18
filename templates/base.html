@@ -14,7 +14,7 @@
         </div>
         <nav>
             <div class="header__menu">
-                <a href="/home" class="header__link">Главная</a>
+                <a href="/" class="header__link">Главная</a>
                 <a href="/recomendations" class="header__link">Рекомендации</a>
                 {% if flag == False %}
                     <a href="{{ url_for('login') }}" class="header__link">Вход</a>
@@ -25,9 +25,9 @@
                 {% endif %}
             </div>
         </nav>
-        <div class="search-container">
+        <div class="search__container">
             <input type="text" class="search-input" placeholder="Поиск фильмов">
-            <button class="search-button"><img src="static/search_logo.svg" alt="Логотип поиска"></button>
+            <button class="search-button"><img src="static/image/search_logo.svg" alt="Логотип поиска" class="search__image"></button>
         </div>
     </div>
 </header>

@@ -167,6 +167,14 @@ def login():
         return render_template('entrance.html', err='')
 
 
+@app.route('/recomendations', methods=['GET', 'POST'])
+def recomendations():
+    if request.method == 'POST':
+        pass
+    else:
+        return render_template('recomendations.html')
+
+
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
     if request.method == 'POST':

@@ -1,37 +1,29 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/entrance.css') }}">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
+{% block styles %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <title>Document</title>
     <link rel="stylesheet" href="../static/css/entrance.css">
-</head>
+{% endblock %}
 
-<body>
-        <div class="logo">
-            <img src="static/image/logo.svg" alt="Логотип">
-        </div>
-    <main>
-        <div class="circle"></div>
-        <div class="register-form-container">
-            <form method="POST">
+{% block content %}
+    <div class="register-form-container">
+        <form method="POST">
             <h1 class="form-title">Вход</h1>
             <div class="form-fields">
-                    <div class="form-field">
-                        <input type="email" name="mail" placeholder="Почта" value="{{email}}">
-                    </div>
-                    <div class="form-field">
-                            <input type="password" name="password" placeholder="Пароль" value="{{password}}">
-                    </div>
-                    <div class="form-checkbox">
-                        <input class="b_1" name="rememder" type="checkbox" value="{{remember}}">
-                        <p>Запомнить меня</p>
-                    </div>
+                <div class="form-field">
+                    <input type="email" name="mail" placeholder="Почта" value="{{email}}">
+                </div>
+                <div class="form-field">
+                    <input type="password" name="password" placeholder="Пароль" value="{{password}}">
+                </div>
+                <div class="form-checkbox">
+                    <input class="b_1" name="rememder" type="checkbox" value="{{remember}}">
+                    <p>Запомнить меня</p>
+                </div>
             </div>
             <div class="form-buttons">
                 <p>{{err}}</p>
@@ -46,7 +38,5 @@
             </div>
             </form>
         </div>
-    </main>
-</body>
+{% endblock %}
 
-</html>

@@ -1,0 +1,15 @@
+.premier-movie__container {
+    display: flex;
+}
+
+.premier-movie__image {
+    width: 40vw;
+}
+
+.premier-movie__text-container{
+    padding-inline:4vw;
+}
+
+.premier-movie__header{
+    text-align: center;
+}
