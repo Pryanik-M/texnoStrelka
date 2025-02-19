@@ -84,6 +84,7 @@ p {
     padding-right: 30px;
     padding-top: 38px;
     padding-bottom: 38px;
+    margin-bottom: 100px;
 
 }
 
@@ -114,7 +115,22 @@ p {
     line-height: 45px;
     width: 100%
 }
+.form-remember {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    text-align: center;
+}
 
+.form-remember a {
+    text-decoration: none;
+    color: #6c757d;
+    ;
+    cursor: pointer;
+}
+
+.form-remember a:hover {
+    color: black;
+}
 .button:hover {
     background-color: #0D6CF2;
 }

@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="../static/css/n_3.2.css">
 {% endblock %}
 
+{% block header_links %}
+    {% set hide_profile_logout = True %}
+{% endblock %}
+
 {% block content %}
     <div class="register-form-container">
         <form method="POST" action="/signup">
@@ -35,6 +39,10 @@
             </div>
             <div class="form-buttons">
                 <button class="button">Зарегистрироваться</button>
+            </div>
+
+            <div class="form-remember">
+                <a href="{{ url_for('login') }}">Не зарегистрированы?</a>
             </div>
         </form>
     </div>

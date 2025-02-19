@@ -1,20 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
+{% block styles %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <title>Профиль</title>
     <link rel="stylesheet" href="../static/css/profile.css">
-</head>
+{% endblock %}
 
-<body>
-    <main>
-        <div class="container">
-            <img src="../ПРОЕКТ/IMG/polz.png" alt="">
+{% block header_links %}
+    {% set hide_profile_logout = True %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+            <img src="static/image/profile-rev.png" alt="">
             <div class="name">
                 <p>Фамилия: {{ surname }}</p>
                 <p>Имя: {{ name }}</p>
@@ -24,9 +26,8 @@
             <div class="buttons">
                 <button class="button">Редактировать профиль</button>
             </div>
+            <div class="buttons">
+                <button class="button" onclick="location.href='{{ url_for('logout') }}'">Выйти</button>
+            </div>
         </div>
-    </main>
-
-</body>
-
-</html>
+{% endblock %}

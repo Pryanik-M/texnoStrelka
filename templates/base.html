@@ -20,8 +20,12 @@
                     <a href="{{ url_for('login') }}" class="header__link">Вход</a>
                     <a href="{{ url_for('signup') }}" class="header__link">Регистрация</a>
                 {% else %}
-                    <a href="{{ url_for('profile') }}" class="header__link">Профиль</a>
-                    <a href="{{ url_for('logout') }}" class="header__link">Выход</a>
+                    {% block header_links %}
+                        {% if not hide_profile_logout %}
+                            <a href="{{ url_for('profile') }}" class="header__link">Профиль</a>
+                            <a href="{{ url_for('logout') }}" class="header__link">Выход</a>
+                        {% endif %}
+                    {% endblock %}
                 {% endif %}
             </div>
         </nav>
@@ -38,7 +42,6 @@
 </main>
 <footer>
     <div class="footer">
-
     </div>
 </footer>
 </body>
