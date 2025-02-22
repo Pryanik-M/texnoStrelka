@@ -140,6 +140,7 @@ def send():
                 session['email'] = email
                 if request.form.get('reset'):
                     return redirect(url_for('new_password', email=email))
+
                 else:
                     return redirect(url_for('login'))
     else:
