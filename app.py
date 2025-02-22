@@ -5,6 +5,7 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from random import randint
+from datetime import datetime
 
 app = Flask(__name__, static_folder='static')
 
@@ -32,6 +33,15 @@ class User(UserMixin, db.Model):
     age = db.Column(db.String(100))
 
 
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    movie_name = db.Column(db.String(100))
+    text = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=datetime.now)
+    user = db.relationship('User', backref='comments')
+
+
 
 with app.app_context():
     db.create_all()
@@ -57,18 +67,27 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        pass
-    else:
         if current_user.is_authenticated:
-            flag_user = True
+            movie_name = request.form.get('movie_name')
+            comment_text = request.form.get('comment_text')
+            if comment_text and movie_name:
+                new_comment = Comment(
+                    user_id=current_user.id,
+                    movie_name=movie_name,
+                    text=comment_text
+                )
+                db.session.add(new_comment)
+                db.session.commit()
+            return redirect(url_for('index'))
         else:
-            flag_user = False
-        return render_template('index.html', flag=flag_user)
+            return redirect(url_for('login'))
+
+    comments = Comment.query.order_by(Comment.timestamp.desc()).all()
+    flag_user = current_user.is_authenticated
+    return render_template('index.html', flag=flag_user, comments=comments)
 
 
 @app.route('/new_password', methods=['GET', 'POST'])
@@ -98,7 +117,6 @@ CODE = 0
 @app.route('/send', methods=['GET', 'POST'])
 def send():
     email = request.args.get('email')
-    num = request.args.get('index')
     if request.method == 'POST':
         global CODE
         email = request.form['mail']
@@ -120,11 +138,10 @@ def send():
             if int(unic_code) == CODE:
                 CODE = 0
                 session['email'] = email
-                print(num)
-                if num == 1:
-                    return redirect(url_for('index'))
-                else:
+                if request.form.get('reset'):
                     return redirect(url_for('new_password', email=email))
+                else:
+                    return redirect(url_for('login'))
     else:
         return render_template('password.html', flag=False, err="", email=email)
 
@@ -144,6 +161,9 @@ def edit_profile():
     email = request.args.get('email')
     user = User.query.filter_by(email=email).first()
     if request.method == 'POST':
+        if request.form.get('reset'):
+            print(123)
+            return redirect(url_for('new_password', email=email))
         new_name = request.form['name']
         new_surname = request.form['surname']
         new_age = request.form['age']
@@ -155,6 +175,8 @@ def edit_profile():
             user.surname = new_surname
             user.age = new_age
             db.session.commit()
+            return redirect(url_for('profile'))
+
     else:
         return render_template('create_profile.html', surname=user.surname, name=user.name,
                                age=user.age, email=email)
@@ -231,7 +253,7 @@ def signup():
         new_user = User(email=email, name=name, surname=surname, age=age, password=password)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('send', email=email, index=1))
+        return redirect(url_for('send', email=email))
     else:
         return render_template('n_3.html', err="")
 

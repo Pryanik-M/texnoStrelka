@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактировать профиль</title>
+</head>
+<body>
+    <div class="register-form-container">
+        <form method="POST">
+            <h1 class="form-title">Редактировать</h1>
+            <div class="form-fields">
+                <div class="form-field">
+                    <input type="text" name="surname" placeholder="Фамилия" value="{{surname}}">
+                </div>
+                <div class="form-field">
+                    <input type="text" name="name" placeholder="Имя" value="{{name}}">
+                </div>
+                <div class="form-field">
+                    <input type="text" name="age" placeholder="Возраст" value="{{age}}">
+                </div>
+            </div>
+            <div class="form-buttons">
+                <p>{{err}}</p>
+                <button class="button">Сохранить</button>
+                <button type="reset" class="button" name="reset">Смена пароля</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
