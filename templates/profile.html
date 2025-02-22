@@ -24,7 +24,7 @@
                 <p>Почта: {{ email }}</p>
             </div>
             <div class="buttons">
-                <button class="button">Редактировать профиль</button>
+                <button class="button" onclick="location.href='{{ url_for('edit_profile', email=email) }}'">Редактировать профиль</button>
             </div>
             <div class="buttons">
                 <button class="button" onclick="location.href='{{ url_for('logout') }}'">Выйти</button>

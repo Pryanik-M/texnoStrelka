@@ -73,6 +73,7 @@ def index():
 
 @app.route('/new_password', methods=['GET', 'POST'])
 def new_password():
+    email = request.args.get('email')
     if request.method == 'POST':
         psw1 = request.form['psw1']
         psw2 = request.form['psw2']
@@ -82,12 +83,11 @@ def new_password():
             return render_template('new_password.html', err='Пароль слишком маленький', psw1=psw1, psw2=psw2)
         if psw1 != psw2:
             return render_template('new_password.html', err='Пароли различаются', psw1=psw1, psw2=psw2)
-        email = session.get('email', None)
         user = User.query.filter_by(email=email).first()
         if user != '':
             user.password = psw1
             db.session.commit()
-        return redirect(url_for('send', email=email))
+        return redirect(url_for('login'))
     else:
         return render_template('new_password.html', psw1='', psw2='')
 
@@ -98,6 +98,7 @@ CODE = 0
 @app.route('/send', methods=['GET', 'POST'])
 def send():
     email = request.args.get('email')
+    num = request.args.get('index')
     if request.method == 'POST':
         global CODE
         email = request.form['mail']
@@ -119,7 +120,11 @@ def send():
             if int(unic_code) == CODE:
                 CODE = 0
                 session['email'] = email
-                return redirect(url_for('index'))
+                print(num)
+                if num == 1:
+                    return redirect(url_for('index'))
+                else:
+                    return redirect(url_for('new_password', email=email))
     else:
         return render_template('password.html', flag=False, err="", email=email)
 
@@ -133,6 +138,28 @@ def profile():
 def movie():
     video_path = request.args.get('name', 'videos/primer.mp4')
     return render_template('movie.html', name=video_path)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    email = request.args.get('email')
+    user = User.query.filter_by(email=email).first()
+    if request.method == 'POST':
+        new_name = request.form['name']
+        new_surname = request.form['surname']
+        new_age = request.form['age']
+        if not new_age or not new_surname or not new_name:
+            return render_template('create_profile.html', err='Заполнены не все поля',
+                                   name=new_name, surname=new_surname, age=new_age)
+        if user != '':
+            user.name = new_name
+            user.surname = new_surname
+            user.age = new_age
+            db.session.commit()
+    else:
+        return render_template('create_profile.html', surname=user.surname, name=user.name,
+                               age=user.age, email=email)
+
+
 
 @app.route('/entrance', methods=['GET', 'POST'])
 def login():
@@ -204,7 +231,7 @@ def signup():
         new_user = User(email=email, name=name, surname=surname, age=age, password=password)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('send', email=email))
+        return redirect(url_for('send', email=email, index=1))
     else:
         return render_template('n_3.html', err="")
 
