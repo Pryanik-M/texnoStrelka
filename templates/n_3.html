@@ -19,16 +19,16 @@
             <h1 class="form-title">Регистрация</h1>
             <div class="form-fields">
                 <div class="form-field">
-                    <input type="email" name="email"  placeholder="Почта">
+                    <input type="email" name="email"  placeholder="Почта" value="{{ email }}">
                 </div>
                 <div class="form-field">
-                    <input type="text" name="name" placeholder="Имя">
+                    <input type="text" name="name" placeholder="Имя" value="{{ name }}">
                 </div>
                 <div class="form-field">
-                    <input type="text" name="surname" placeholder="Фамилия">
+                    <input type="text" name="surname" placeholder="Фамилия" value="{{ surname }}">
                 </div>
                 <div class="form-field">
-                    <input type="text" name="age" placeholder="Возраст">
+                    <input type="text" name="age" placeholder="Возраст" value="{{ age }}">
                 </div>
                 <div class="form-field">
                     <input type="password" name="password" placeholder="Пароль">
@@ -38,7 +38,8 @@
                 </div>
             </div>
             <div class="form-buttons">
-                <button class="button" type="submit">Зарегистрироваться</button>
+                <button class="button">Зарегистрироваться</button>
+                <p>{{err}}</p>
             </div>
 
             <div class="form-remember">

@@ -28,7 +28,7 @@ login_manager.login_view = 'login'
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(256))
+    password = db.Column(db.String(256))  # Увеличиваем длину для хранения хэша
     name = db.Column(db.String(100))
     surname = db.Column(db.String(100))
     age = db.Column(db.String(100))
@@ -119,6 +119,7 @@ def send():
     email = request.args.get('email')
     if request.method == 'POST':
         global CODE
+        reset = request.args.get('reset')
         email = request.form['mail']
         unic_code = request.form['unik_cod']
         if email == '':
@@ -138,10 +139,12 @@ def send():
             if int(unic_code) == CODE:
                 CODE = 0
                 session['email'] = email
-                if request.form.get('reset'):
+                if reset == 1:
                     return redirect(url_for('new_password', email=email))
+                elif reset == 0:
+                    return redirect(url_for('index'))
                 else:
-                    return redirect(url_for('new_password', email=email))
+                    return redirect(url_for('send', email=email))
     else:
         return render_template('password.html', flag=False, err="", email=email)
 
@@ -162,7 +165,6 @@ def edit_profile():
     user = User.query.filter_by(email=email).first()
     if request.method == 'POST':
         if request.form.get('reset'):
-            print(123)
             return redirect(url_for('new_password', email=email))
         new_name = request.form['name']
         new_surname = request.form['surname']
@@ -256,7 +258,7 @@ def signup():
         new_user = User(email=email, name=name, surname=surname, age=age, password=generate_password_hash(password))
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('send', email=email))
+        return redirect(url_for('send', email=email, reset=0))
     else:
         return render_template('n_3.html', err="")
 
