@@ -119,7 +119,7 @@ def send():
     email = request.args.get('email')
     if request.method == 'POST':
         global CODE
-        reset = request.args.get('reset')
+        reset = int(request.args.get('reset'))
         email = request.form['mail']
         unic_code = request.form['unik_cod']
         if email == '':
