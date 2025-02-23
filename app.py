@@ -6,6 +6,7 @@ import smtplib
 from email.mime.text import MIMEText
 from random import randint
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__, static_folder='static')
 
@@ -27,11 +28,10 @@ login_manager.login_view = 'login'
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(100))
+    password = db.Column(db.String(256))
     name = db.Column(db.String(100))
     surname = db.Column(db.String(100))
     age = db.Column(db.String(100))
-
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -103,8 +103,8 @@ def new_password():
         if psw1 != psw2:
             return render_template('new_password.html', err='Пароли различаются', psw1=psw1, psw2=psw2)
         user = User.query.filter_by(email=email).first()
-        if user != '':
-            user.password = psw1
+        if user:
+            user.password = generate_password_hash(psw1)
             db.session.commit()
         return redirect(url_for('login'))
     else:
@@ -140,9 +140,8 @@ def send():
                 session['email'] = email
                 if request.form.get('reset'):
                     return redirect(url_for('new_password', email=email))
-
                 else:
-                    return redirect(url_for('login'))
+                    return redirect(url_for('new_password', email=email))
     else:
         return render_template('password.html', flag=False, err="", email=email)
 
@@ -207,13 +206,16 @@ def login():
         if not user:
             return render_template('entrance.html', err='Почта не зарегистрирована', email=email,
                                    password=password, remember=remember)
-        user = User.query.filter((User.email == email) & (User.password == password)).first()
-        if user:
-            login_user(user, remember=remember)
-            return redirect(url_for('index'))
-        else:
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return render_template('entrance.html', err='Почта не зарегистрирована', email=email,
+                                   password=password, remember=remember)
+        if not check_password_hash(user.password, password):
             return render_template('entrance.html', err='Проверьте данные', email=email,
                                    password=password, remember=remember)
+
+        login_user(user, remember=remember)
+        return redirect(url_for('index'))
     else:
         return render_template('entrance.html', err='')
 
@@ -251,7 +253,7 @@ def signup():
             email=email).first()
         if user:
             return render_template('n_3.html', err="Пользователь с такой почтой уже зарегистрирован")
-        new_user = User(email=email, name=name, surname=surname, age=age, password=password)
+        new_user = User(email=email, name=name, surname=surname, age=age, password=generate_password_hash(password))
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('send', email=email))
