@@ -47,6 +47,7 @@ class User(UserMixin, db.Model):
     surname = db.Column(db.String(100))
     age = db.Column(db.String(100))
 
+
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -55,6 +56,13 @@ class Comment(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.now)
     user = db.relationship('User', backref='comments')
 
+
+class Movie(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(100))
+    poster_img = db.Column(db.String(100), unique=True)
+    description = db.Column(db.String(200))
+    release_year = db.Column(db.Integer())
 
 
 with app.app_context():
@@ -126,7 +134,12 @@ def index():
             return redirect(url_for('login'))
     comments = Comment.query.order_by(Comment.timestamp.desc()).all()
     flag_user = current_user.is_authenticated
-    return render_template('index.html', flag=flag_user, comments=comments)
+    new_movies_id = [1, 2]  # Идентификаторы фильмов, которые будут в разделе "новые" на главной странице
+    new_movies = []
+    for movie_id in new_movies_id:
+        new_movies.append(Movie.query.filter_by(id=movie_id).first())
+    return render_template('index.html', flag=flag_user,
+                           new_movies=new_movies, comments=comments)
 
 
 @app.route('/new_password', methods=['GET', 'POST'])
@@ -194,6 +207,14 @@ def profile():
 def movie():
     video_path = request.args.get('name', 'videos/primer.mp4')
     return render_template('movie.html', name=video_path)
+
+
+@app.route('/movie_page/<int:movie_id>')
+def movie_page(movie_id):
+    flag_user = current_user.is_authenticated
+    movie = Movie.query.filter_by(
+        id=movie_id).first()
+    return render_template('movie_page.html', flag=flag_user, movie=movie)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])

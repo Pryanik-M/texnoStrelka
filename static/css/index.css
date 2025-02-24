@@ -13,3 +13,68 @@
 .premier-movie__header{
     text-align: center;
 }
+
+.new-movies__img {
+    width: 20vw;
+}
+
+.wrapper {
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    gap: 14px;
+    padding-bottom: 10px;
+    cursor: grab;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none; /* Скрываем скроллбар */
+}
+
+.carousel-inner {
+    display: flex;
+    gap: 14px;
+}
+
+.carousel img {
+    height: 200px;
+    width: calc(100% / 3); /* Каждое изображение занимает треть ширины контейнера */
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 20px;
+    z-index: 1;
+}
+
+.arrow:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.left-arrow {
+    left: -40px;
+}
+
+.right-arrow {
+    right: -40px;
+}

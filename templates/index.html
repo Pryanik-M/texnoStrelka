@@ -35,4 +35,20 @@
         </div>
     </div>
 </div>
+<div class="new-movies">
+    <h2>Новинки</h2>
+
+    <div class="wrapper">
+        <div class="carousel">
+            <div class="carousel-inner">
+                {% for movie in new_movies %}
+                    <a class="new-movies_a" href="/movie_page/{{ movie.id }}"><img src="static/posters/{{ movie.poster_img }}" class="new-movies__img"></a>
+                {% endfor %}
+            </div>
+        </div>
+        <button class="arrow left-arrow">&lt;</button>
+        <button class="arrow right-arrow">&gt;</button>
+    </div>
+
+</div>
 {% endblock %}
