@@ -7,6 +7,15 @@ from email.mime.text import MIMEText
 from random import randint
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+import os
+import pandas as pd
+import numpy as np
+import torch
+from sentence_transformers import SentenceTransformer
+import joblib
+from deep_translator import GoogleTranslator
+from langdetect import detect
+from Levenshtein import distance as levenshtein_distance
 
 app = Flask(__name__, static_folder='static')
 
@@ -23,6 +32,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+MODEL_DIR = "model2"
+os.makedirs(MODEL_DIR, exist_ok=True)
+
+CODE = 0
 
 
 class User(UserMixin, db.Model):
@@ -45,6 +59,32 @@ class Comment(db.Model):
 
 with app.app_context():
     db.create_all()
+
+
+def recommend_movies(query_text, model, knn, movies, top_n=5):
+    query_embed = model.encode(query_text, device=device)
+    distances, indices = knn.kneighbors([query_embed])
+    recommendations = movies.iloc[indices[0]]
+    if top_n is None:
+        return recommendations
+    else:
+        return recommendations.head(top_n)
+
+
+def search_movies_by_title(query, movies, top_n=5):
+    translated_query = translate_if_needed(query)
+    mask = movies['title'].str.contains(translated_query, case=False, na=False)
+    results = movies[mask].head(top_n)
+    return results
+
+
+def translate_if_needed(text, target_lang="en"):
+    try:
+        detected_lang = detect(text)
+    except Exception:
+        detected_lang = "en"
+    return GoogleTranslator(source=detected_lang, target=target_lang).translate(
+        text) if detected_lang != "en" else text
 
 
 def send_email(message, adress):
@@ -84,7 +124,6 @@ def index():
             return redirect(url_for('index'))
         else:
             return redirect(url_for('login'))
-
     comments = Comment.query.order_by(Comment.timestamp.desc()).all()
     flag_user = current_user.is_authenticated
     return render_template('index.html', flag=flag_user, comments=comments)
@@ -109,9 +148,6 @@ def new_password():
         return redirect(url_for('login'))
     else:
         return render_template('new_password.html', psw1='', psw2='')
-
-
-CODE = 0
 
 
 @app.route('/send', methods=['GET', 'POST'])
@@ -159,6 +195,7 @@ def movie():
     video_path = request.args.get('name', 'videos/primer.mp4')
     return render_template('movie.html', name=video_path)
 
+
 @app.route('/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
     email = request.args.get('email')
@@ -178,11 +215,9 @@ def edit_profile():
             user.age = new_age
             db.session.commit()
             return redirect(url_for('profile'))
-
     else:
         return render_template('create_profile.html', surname=user.surname, name=user.name,
                                age=user.age, email=email)
-
 
 
 @app.route('/entrance', methods=['GET', 'POST'])
@@ -215,7 +250,6 @@ def login():
         if not check_password_hash(user.password, password):
             return render_template('entrance.html', err='Проверьте данные', email=email,
                                    password=password, remember=remember)
-
         login_user(user, remember=remember)
         return redirect(url_for('index'))
     else:
@@ -224,10 +258,22 @@ def login():
 
 @app.route('/recomendations', methods=['GET', 'POST'])
 def recomendations():
+    results = None
     if request.method == 'POST':
-        pass
-    else:
-        return render_template('recomendations.html')
+        query = request.form.get('query')
+        if query:
+            knn_path = os.path.join(MODEL_DIR, "knn_model.pkl")
+            embeddings_path = os.path.join(MODEL_DIR, "movie_embeddings.npy")
+            metadata_path = os.path.join(MODEL_DIR, "movies_metadata.pkl")
+            if os.path.exists(knn_path) and os.path.exists(embeddings_path) and os.path.exists(metadata_path):
+                knn = joblib.load(knn_path)
+                movies = pd.read_pickle(metadata_path)
+                model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', device=device)
+                translated_query = translate_if_needed(query)
+                print(f"[INFO] Запрос после перевода: {translated_query}")
+                recommendations = recommend_movies(translated_query, model, knn, movies, top_n=None)
+                results = recommendations[['title']].to_dict('records')
+    return render_template('recomendations.html', results=results)
 
 
 @app.route('/signup', methods=['POST', 'GET'])

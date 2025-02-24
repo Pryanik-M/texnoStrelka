@@ -2,4 +2,16 @@
 
 {% block content %}
 
+{% if results %}
+    <div class="results-container">
+        <h2>Результаты поиска:</h2>
+        <ul>
+            {% for movie in results %}
+                <li>
+                    <strong>{{ movie.title }}</strong> ({{ movie.release_date }})
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
 {% endblock %}
