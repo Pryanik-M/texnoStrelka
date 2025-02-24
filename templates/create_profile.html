@@ -23,7 +23,8 @@
             <div class="form-buttons">
                 <p>{{err}}</p>
                 <button class="button">Сохранить</button>
-                <button type="reset" class="button">Смена пароля</button>
+                <button type="reset" class="button"
+                        onclick="location.href='{{ url_for('send', email=email, reset=1) }}'">Смена пароля</button>
             </div>
         </form>
     </div>

@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_required, current_user, logout_user, login_user
-import os
 import smtplib
 from email.mime.text import MIMEText
 from random import randint
@@ -9,13 +8,11 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import pandas as pd
-import numpy as np
 import torch
 from sentence_transformers import SentenceTransformer
 import joblib
 from deep_translator import GoogleTranslator
 from langdetect import detect
-from Levenshtein import distance as levenshtein_distance
 
 app = Flask(__name__, static_folder='static')
 
@@ -160,6 +157,9 @@ def send():
         unic_code = request.form['unik_cod']
         if email == '':
             return render_template('password.html', flag=False, err="Введите почту")
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return render_template('password.html', err='Почта не зарегистрирована', flag=False)
         if unic_code == '':
             CODE = randint(1000, 9999)
             message = (f'''Здравствуйте!
@@ -201,8 +201,6 @@ def edit_profile():
     email = request.args.get('email')
     user = User.query.filter_by(email=email).first()
     if request.method == 'POST':
-        if request.form.get('reset'):
-            return redirect(url_for('new_password', email=email))
         new_name = request.form['name']
         new_surname = request.form['surname']
         new_age = request.form['age']
@@ -239,10 +237,6 @@ def login():
         if len(password) < 8:
             return render_template('entrance.html', err='Слабый пароль', email=email,
                                    password='', remember=remember)
-        user = User.query.filter_by(email=email).first()
-        if not user:
-            return render_template('entrance.html', err='Почта не зарегистрирована', email=email,
-                                   password=password, remember=remember)
         user = User.query.filter_by(email=email).first()
         if not user:
             return render_template('entrance.html', err='Почта не зарегистрирована', email=email,

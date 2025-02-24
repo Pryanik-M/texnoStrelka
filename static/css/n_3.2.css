@@ -1,28 +1,15 @@
-svg {
-    display: block; /* Делаем элемент блочным, чтобы margin сработал */
-    margin: 40px auto 0; /* Отступ сверху 40px и выравнивание по центру */
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
 }
-nav ul {
-    float: right;
+@font-face {
+    font-family: "Tinkoff";
+    src: url('../static/css/font/tinkoffsans-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
-
-nav li {
-    display: inline-block;
-    list-style: none;
-}
-
-nav li a {
-    font-size: 18px;
-    text-transform: uppercase;
-    padding: 0px 30px;
-    color: black;
-    text-decoration: none;
-}
-
-nav li a:hover {
-    color: #6c757d;
-}
-
 .footerBottom {
     position: fixed;
     bottom: 0;
@@ -33,14 +20,12 @@ nav li a:hover {
     text-align: center;
     box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, .5);
 }
-
 main {
     display: flex;
     justify-content: center;
     padding-top: 140px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
-
 input {
     height: 45px;
     width: 100%;
@@ -52,11 +37,9 @@ input {
     padding-left: 25px;
     box-sizing: border-box;
 }
-
 input[type="checkbox"] {
     width: fit-content;
 }
-
 .b_1 {
     height: 20px;
     width: 100%;
@@ -65,18 +48,15 @@ input[type="checkbox"] {
     padding-left: 25px;
     margin-bottom: 13px;
 }
-
 p {
     padding-left: 5px;
     line-height: 20px;
 }
-
 .form-checkbox {
     display: flex;
 }
-
 .register-form-container {
-    width: 515px;
+    width: 500px;
     background: #ffffff;
     box-shadow: 0px 6px 50px rgba(217, 229, 255, 0.7);
     border-radius: 20px;
@@ -85,9 +65,13 @@ p {
     padding-top: 38px;
     padding-bottom: 38px;
     margin-bottom: 100px;
-
 }
-
+header {
+    text-align: center; /* Центрирование содержимого в header */
+    padding: 30px 0; /* Отступ сверху и снизу для header */
+    background-color: white;
+    box-shadow: 0px 6px 50px rgba(217, 229, 255, 0.7);
+}
 .form-title {
     color: #30507D;
     font-weight: 500;
@@ -95,11 +79,9 @@ p {
     line-height: 23px;
     padding-bottom: 38px;
 }
-
 .form-field {
     margin-bottom: 13px;
 }
-
 .button {
     border: none;
     font-weight: bold;
@@ -120,7 +102,6 @@ p {
     padding-bottom: 10px;
     text-align: center;
 }
-
 .form-remember a {
     text-decoration: none;
     color: #6c757d;
@@ -132,5 +113,5 @@ p {
     color: black;
 }
 .button:hover {
-    background-color: #0D6CF2;
+    background-color: #ff5555;
 }

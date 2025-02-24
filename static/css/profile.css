@@ -1,84 +1,129 @@
-nav ul {
-    float: right;
+@font-face {
+    font-family: "Tinkoff";
+    src: url('../static/css/font/tinkoffsans-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
-nav li {
-    display: inline-block;
-    list-style: none;
+
+body {
+    background-color: #f6f7f8; /* Серый фон */
+    margin: 0;
 }
 
-nav li a {
-    font-size: 18px;
-    text-transform: uppercase;
-    padding: 0px 30px;
-    color: black;
-    text-decoration: none;
-}
 
-nav li a:hover {
-    color: #6c757d;
-}
-
-.container img {
-    display: block;
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    margin: auto;
-
-}
-
-.container {
-    display: block;
-    margin: auto;
-    width: 500px;
-    height: auto;
-    background: #ffffff;
+header {
+    text-align: center; /* Центрирование содержимого в header */
+    padding: 30px 0; /* Отступ сверху и снизу для header */
+    background-color: white;
     box-shadow: 0px 6px 50px rgba(217, 229, 255, 0.7);
-    border-radius: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 38px;
-    padding-bottom: 38px;
 }
 
-main {
-    padding-top: 130px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+.centered-div {
+    display: flex;
+    flex-direction: column; /* Элементы располагаются вертикально */
+    align-items: center; /* Центрирование по горизонтали */
+    justify-content: center; /* Центрирование по вертикали */
+    width: 700px;
+    height: 350px;
+    border-radius: 10px;
+    background-color: white;
+    margin: 100px auto;
+    box-shadow: 0px 6px 50px rgba(217, 229, 255, 0.7);
+    padding: 20px;
 }
 
-.name {
-    padding-top: 40px;
+.profile-image {
+    width: 30%; /* Устанавливаем ширину изображения на 30% */
+    height: auto; /* Сохраняем пропорции изображения */
+    margin-right: 5px; /* Отступ справа от картинки */
+    margin-left: 20px;
 }
 
-.name p {
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    font-size: 18px;
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Выравниваем текст и кнопки по левому краю */
+    margin-left: 50px; /* Отступ слева от текста */
 }
 
-.button {
+.centered-div p {
+    margin: 10px 0; /* Отступы между строками */
+    text-align: left; /* Выравниваем текст по левому краю */
+    white-space: nowrap; /* Запрещаем перенос текста на новую строку */
+}
+
+.underline-orn {
+    color: inherit;
+    padding: 5px 10px; /* Отступы внутри элемента */
+    display: inline-block; /* Делаем элементы блочно-строчными */
+    width: 150px; /* Фиксированная ширина для всех элементов */
+    text-align: left; /* Выравниваем текст по левому краю */
+}
+
+.button_1 {
+    font-family: "Jost", sans-serif;
+    font-weight: 400;
+    width: 150px;
+    height: 40px;
+    font-size: 15px;
     border: none;
-    font-weight: bold;
-    font-size: 14px;
-    display: block;
-    height: 45px;
-    background: #ff5500;
+    color: #ffff;
+    background-color: #ff5500dc;
     border-radius: 5px;
-    color: #fff;
     cursor: pointer;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 45px;
-    width: 100%
 }
 
-.button:hover {
-    background-color: #ff5555;
+.button_1:hover {
+    background-color: #FF5500;
 }
 
-.buttons {
-    padding-top: 20px;
-    padding-bottom: 20px;
+.button_2 {
+    font-family: "Jost", sans-serif;
+    font-weight: 400;
+    width: 150px;
+    height: 40px;
+    font-size:15px;
+    border: 1px solid #FF5500;
+    color: #FF5500;
+    background-color: #ffff;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.button_2:hover {
+    background-color: #ff5500dc;
+    color: #ffff;
+    transition: 0.2s;
+}
+
+.buttons-container {
+    display: flex;
+    margin-top: 20px;
+    gap: 10px; /* Расстояние между кнопками */
+}
+.text{
+    border: 1px solid #FF5500;
+    border-radius: 3px;
+    padding-right: 10px;
+}
+.profile-title {
+    text-align: center; /* Центрирование текста */
+    width: 100%; /* Ширина на всю доступную ширину */
+    font-size: 24px; /* Размер текста */
+    font-weight: bold; /* Жирный текст */
+    margin-bottom: 15px; /* Нулевые отступы */
+    padding: 0; /* Нулевые отступы */
+    color: #333; /* Цвет текста */
+    font-family: "Tinkoff", Arial, sans-serif; /* Основной шрифт */
+    font-size: 28px;
+}
+.inner-content {
+    display: flex;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: flex-start; /* Элементы начинаются слева */
+    width: 100%; /* Ширина на всю доступную ширину */
+    margin-top: 20px; /* Отступ сверху, чтобы текст "Мой профиль" не накладывался */
 }
