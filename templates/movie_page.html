@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="static/css/movie_page.css" type="text/css">
+{% endblock %}
+
+{% block content %}
+<h1>{{ movie.name }}</h1>
+<div class="movie__image-container"><img src="static/posters/{{ movie.poster_img }}"
+                                         class="movie__image"></div>
+<div class="movie__text-container">
+    <p>{{ movie.description }}</p>
+    <button onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">Смотреть фильм</button>
+    {% if flag %}
+    <form method="POST">
+        <input type="text" name="movie_name" placeholder="Название фильма" required>
+        <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
+        <button type="submit">Отправить</button>
+    </form>
+    {% endif %}
+    <div class="comments">
+        {% for comment in comments %}
+        <div class="comment">
+            <h4>{{ comment.user.name }} - {{ comment.movie_name }}</h4>
+            <p>{{ comment.text }}</p>
+            <small>{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

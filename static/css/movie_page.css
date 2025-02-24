@@ -1,0 +1,11 @@
+.movie__image {
+    width: 40vw;
+}
+
+.movie__image-container{
+    display: flex;
+}
+
+.movie__text-container{
+    padding-inline:4vw;
+}
