@@ -14,6 +14,10 @@
     text-align: center;
 }
 
+.new-movies {
+    text-align: center;
+}
+
 .new-movies__img {
     width: 20vw;
 }
@@ -22,6 +26,7 @@
     max-width: 1200px;
     width: 100%;
     position: relative;
+    margin-inline: auto;
 }
 
 .carousel {
@@ -40,14 +45,14 @@
 
 .carousel-inner {
     display: flex;
-    gap: 14px;
+    gap: 20px;
 }
 
 .carousel img {
-    height: 200px;
-    width: calc(100% / 3); /* Каждое изображение занимает треть ширины контейнера */
+    height: 300px;
+    width: calc(100%);
     object-fit: cover;
-    border-radius: 8px;
+    /* border-radius: 8px; */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     flex: 0 0 auto;
     scroll-snap-align: start;

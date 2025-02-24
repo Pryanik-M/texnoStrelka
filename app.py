@@ -134,7 +134,7 @@ def index():
             return redirect(url_for('login'))
     comments = Comment.query.order_by(Comment.timestamp.desc()).all()
     flag_user = current_user.is_authenticated
-    new_movies_id = [1, 2]  # Идентификаторы фильмов, которые будут в разделе "новые" на главной странице
+    new_movies_id = [1, 2, 3, 4]  # Идентификаторы фильмов, которые будут в разделе "новые" на главной странице
     new_movies = []
     for movie_id in new_movies_id:
         new_movies.append(Movie.query.filter_by(id=movie_id).first())
