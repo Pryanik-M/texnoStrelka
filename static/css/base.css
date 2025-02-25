@@ -118,4 +118,43 @@ body {
 
 .footer {
     color: white;
+    background-color: #fc4e00;
+    min-height: 20vh;
+    margin-top: 4vh;
+    display: flow-root; /* Чтобы margin дочерних элементов оставался внутри */
+}
+
+.footer__text-block {
+    text-align: center;
+    margin-top: 4vh;
+}
+/* Бегущая строка */
+.marquee {
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.marquee-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 20s linear infinite;
+    color: white;
+    font-size: 1.5em;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Остальные стили footer */
+.footer__text-block {
+    margin-top: 4vh;
+    overflow: hidden; /* Скрываем выходящий за границы текст */
 }

@@ -1,0 +1,96 @@
+.results-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.results-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Стили для списка фильмов */
+.results-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.results-container ul li {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 20px;
+}
+
+/* Стили для ссылок */
+.results-container ul li a {
+    text-decoration: none;
+    color: #000; /* Черный цвет ссылок по умолчанию */
+    display: flex;
+    align-items: flex-start;
+}
+
+.results-container ul li a:hover {
+    color: #ff5500; /* Цвет ссылок при наведении */
+}
+
+/* Стили для заголовка фильма */
+.results-container ul li h3 {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+/* Стили для описания фильма */
+.results-container ul li .description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Стили для картинки фильма */
+.results-container ul li img {
+    width: 100px;
+    height: 150px;
+    margin-right: 20px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+/* Стили для каждого элемента результата */
+.result_elem {
+    display: flex; /* Используем flexbox для выравнивания */
+    align-items: flex-start; /* Выравниваем элементы по верхнему краю */
+    flex-direction: column;
+    margin-bottom: 20px; /* Отступ между элементами */
+    border-bottom: 1px solid #e0e0e0; /* Граница между элементами */
+    padding-bottom: 20px; /* Отступ снизу */
+}
+
+/* Стили для изображения */
+.result_elem img {
+    width: 4vw; /* Ширина изображения */
+    height: 4vh; /* Высота изображения */
+    margin-right: 20px; /* Отступ справа от изображения */
+    border-radius: 5px; /* Закругленные углы */
+    object-fit: cover; /* Обрезка изображения по размеру */
+}
+
+/* Стили для текстового блока (название и описание) */
+.result_elem .movie-item {
+    flex: 1; /* Занимает оставшееся пространство */
+}
+
+/* Стили для заголовка фильма */
+.result_elem .movie-item h3 {
+    font-size: 20px;
+    margin: 0 0 10px 0; /* Отступ снизу */
+    color: #333;
+}
+
+/* Стили для описания фильма */
+.result_elem .movie-item .description {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5; /* Межстрочный интервал */
+}
