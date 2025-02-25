@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="static/css/base.css" type="text/css">
+
     {% block styles %}{% endblock %}
     <title>KinoStrelka</title>
 </head>
@@ -44,9 +45,15 @@
 </main>
 <footer>
     <div class="footer">
-        <p>Сайт создан командой "Блины", состоящей из Матвея Пряникова, Глеба Лебедева, Глеба Гульовского и Эльмана
-            Ахмедова при поддержке ЦЦОД "IT-Куб" г. Арзамаса</p>
-        <div class="footer__socnet"></div>
+        <div class="footer__text-block">
+            <div class="marquee">
+                <span class="marquee-text">Сайт создан командой "Блины", состоящей из Матвея Пряникова, Глеба Лебедева, Глеба Гульовского и Эльмана Ахмедова при поддержке ЦЦОД "IT-Куб" г. Арзамас</span>
+                <span class="marquee-text">Сайт создан командой "Блины", состоящей из Матвея Пряникова, Глеба Лебедева, Глеба Гульовского и Эльмана Ахмедова при поддержке ЦЦОД "IT-Куб" г. Арзамас</span>
+            </div>
+        </div>
+
+        <div class="footer__socnet">
+        </div>
     </div>
 </footer>
 {% block scripts %}{% endblock %}

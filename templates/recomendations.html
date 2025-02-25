@@ -1,17 +1,24 @@
 {% extends "base.html" %}
-
+{% block styles %}
+    <link rel="stylesheet" href="static/css/recomendations.css" type="text/css">
+{% endblock %}
 {% block content %}
 {% if results %}
     <div class="results-container">
         <h2>Результаты поиска:</h2>
         <ul>
+
             {% for movie in results %}
-                <li class="movie-item">
+                <div class="result_elem">
+                <a style="text-decoration: none; color: black;" href="{{ url_for('movie_page', name=movie.title,
+                 desc=movie.description, poster='default.jpg') }}"><li class="movie-item">
+                    <img src="static/posters/default.jpg">
                     <h3>{{ movie.title }}</h3>
                     <div class="description">
                         {{ movie.description|truncate(300) }}
                     </div>
-                </li>
+                </li></a>
+                </div>
             {% endfor %}
         </ul>
     </div>
