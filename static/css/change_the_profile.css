@@ -1,4 +1,4 @@
- body {
+body {
     background-color: #f6f7f8;
     display: flex;
     justify-content: center; /* Выравнивание по центру горизонтали */
@@ -34,7 +34,9 @@
 .buttons {
     margin-top: 30px;
     display: flex;
-    gap: 20px; /* Расстояние между кнопками 50px */
+    gap: 20px; /* Расстояние между кнопками */
+    width: 450px; /* Ширина кнопок равна ширине полей ввода */
+    justify-content: space-between; /* Равномерное распределение кнопок */
 }
 
 input {
@@ -64,9 +66,11 @@ input:focus {
     font-size: 14px;
     cursor: pointer;
 }
-.box_two{
+
+.box_two {
     margin-top: 10px;
 }
+
 @font-face {
     font-family: "Tinkoff";
     src: url('../font/tinkoffsans-medium.ttf') format('truetype');
@@ -75,23 +79,26 @@ input:focus {
     font-display: swap;
 }
 
-p{
+p {
     color: #000000cc;
     font-family: "Tinkoff", Arial, sans-serif;
     font-size: 30px;
 }
+
 svg {
     width: 30px; /* Ширина SVG */
     height: 30px; /* Высота SVG */
     position: absolute; /* Абсолютное позиционирование */
     top: 100px; /* Отступ сверху */
-    right: 380px; /* Отступ справа */
+    right: 450px; /* Отступ справа (ближе к форме) */
     cursor: pointer; /* Курсор в виде указателя */
 }
-.button_1:hover {
+
+.button:hover {
     background-color: #f77f00;
     transition: 0.2s;
 }
+
 .button_2:hover {
     background-color: #f77f00;
     transition: 0.2s;

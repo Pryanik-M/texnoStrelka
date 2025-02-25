@@ -7,12 +7,9 @@
         <ul>
             {% for movie in results %}
                 <li class="movie-item">
-                    <h3>{{ movie_title }}</h3>
-                    {% if movie.genres %}
-                        <p>Жанры: {{ movie_genres }}</p>
-                    {% endif %}
+                    <h3>{{ movie.title }}</h3>
                     <div class="description">
-                        {{ movie_description|truncate(300) }}
+                        {{ movie.description|truncate(300) }}
                     </div>
                 </li>
             {% endfor %}

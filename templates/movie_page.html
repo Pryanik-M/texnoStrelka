@@ -8,26 +8,30 @@
 </head>
 <body>
     <h1>{{ movie_name }}</h1>
-    <div class="movie__image-container"><img src="static/posters/{{ movie_poster }}"
-                                             class="movie__image"></div>
+    <div class="movie__image-container">
+        <img src="static/posters/{{ movie_poster }}" class="movie__image" onerror="this.onerror=null; this.src='static/posters/no-image.jpg';">
+    </div>
     <div class="movie__text-container">
         <p>{{ movie_description }}</p>
         <button onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">Смотреть фильм</button>
         {% if flag %}
-        <form method="POST">
-            <input type="text" name="movie_name" placeholder="Название фильма" required>
-            <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
-            <button type="submit">Отправить</button>
-        </form>
+            <form method="POST">
+                <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
+                <button type="submit">Отправить</button>
+            </form>
         {% endif %}
         <div class="comments">
-            {% for comment in comments %}
-            <div class="comment">
-                <h4>{{ comment.user.name }} - {{ comment.movie_name }}</h4>
-                <p>{{ comment.text }}</p>
-                <small>{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
-            </div>
-            {% endfor %}
+            {% if comments %}
+                {% for comment in comments %}
+                    <div class="comment">
+                        <h4>{{ comment.user.name }}</h4>
+                        <p>{{ comment.text }}</p>
+                        <small>{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Комментариев пока нет.</p>
+            {% endif %}
         </div>
     </div>
 </body>

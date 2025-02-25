@@ -128,12 +128,12 @@ def load_user(user_id):
 def index():
     if request.method == 'POST':
         if current_user.is_authenticated:
-            movie_name = request.form.get('movie_name')
+            movie_name = "Иван Царевич и Серый Волк 6"  # Фиксированное название фильма
             comment_text = request.form.get('comment_text')
-            if comment_text and movie_name:
+            if comment_text:
                 new_comment = Comment(
                     user_id=current_user.id,
-                    movie_name=movie_name,
+                    movie_name=movie_name,  # Название фильма фиксировано
                     text=comment_text
                 )
                 db.session.add(new_comment)
@@ -141,12 +141,16 @@ def index():
             return redirect(url_for('index'))
         else:
             return redirect(url_for('login'))
-    comments = Comment.query.order_by(Comment.timestamp.desc()).all()
+
+    # Загрузка комментариев только для фильма "Иван Царевич и Серый Волк 6"
+    comments = Comment.query.filter_by(movie_name="Иван Царевич и Серый Волк 6").order_by(Comment.timestamp.desc()).all()
+
     flag_user = current_user.is_authenticated
-    new_movies_id = [1, 2, 3, 4, 5, 6, 7, 8]  # Идентификаторы фильмов, которые будут в разделе "новые" на главной странице
+    new_movies_id = [1, 2, 3, 4, 5, 6, 7, 8]  # Идентификаторы фильмов для раздела "новые"
     new_movies = []
     for movie_id in new_movies_id:
         new_movies.append(Movie.query.filter_by(id=movie_id).first())
+
     return render_template('index.html', flag=flag_user,
                            new_movies=new_movies, comments=comments)
 
@@ -221,16 +225,39 @@ def movie():
     return render_template('movie.html', name=video_path)
 
 
-@app.route('/movie_page')
+@app.route('/movie_page', methods=['GET', 'POST'])
 def movie_page():
     flag_user = current_user.is_authenticated
     name = request.args.get('name')
     poster = request.args.get('poster')
     description = request.args.get('desc')
+
+    # Проверка изображения
+    if not os.path.exists(os.path.join('static', 'posters', poster)):
+        poster = 'no-image.jpg'
+
+    # Загрузка комментариев для текущего фильма
+    comments = Comment.query.filter_by(movie_name=name).order_by(Comment.timestamp.desc()).all()
+
+    # Обработка POST-запроса (отправка комментария)
+    if request.method == 'POST' and flag_user:
+        comment_text = request.form.get('comment_text')  # Название фильма больше не берем из формы
+        if comment_text:
+            new_comment = Comment(
+                user_id=current_user.id,
+                movie_name=name,  # Берем название из текущего контекста
+                text=comment_text
+            )
+            db.session.add(new_comment)
+            db.session.commit()
+            return redirect(url_for('movie_page', name=name, poster=poster, desc=description))
+
     return render_template('movie_page.html',
-                         movie_name=name,
-                         movie_poster=poster,
-                         movie_description=description, flag=flag_user)
+                           movie_name=name,
+                           movie_poster=poster,
+                           movie_description=description,
+                           comments=comments,
+                           flag=flag_user)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
@@ -308,14 +335,11 @@ def recomendations():
                 translated_query = translate_if_needed(query)
 
                 recommendations = recommend_movies(translated_query, model, knn, movies, top_n=None)
-
-                # Собираем данные для передачи в шаблон
                 results = []
                 for _, row in recommendations.iterrows():
                     movie_id = row['movie_id']
                     results.append({
                         'title': row['title'],
-                        'genres': row.get('genres', ''),
                         'description': plot_summaries.get(movie_id, "Описание отсутствует")
                     })
 
