@@ -1,166 +1,134 @@
-@font-face {
-    font-family: "Tinkoff";
-    src: url('../css/font/tinkoffsans-medium.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
+/* Основные стили */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
     margin: 0;
     padding: 0;
-    --orange: #ff5500;
+    line-height: 1.6;
 }
 
+/* Шапка */
 .header {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+}
+
+.header__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-block: 3vh;
-    padding-inline: 3vw;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header__logo .logo {
+    height: 50px;
+    width: auto;
+}
+
+.header__nav {
+    display: flex;
+    align-items: center;
 }
 
 .header__menu {
     display: flex;
-    justify-content: space-between;
-    min-width: 35vw;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
+.header__link {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.header__link:hover {
+    color: #ff5500;
+}
+
+/* Поиск */
 .search__container {
     display: flex;
     align-items: center;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 20vw;
-    height: 5vh;
 }
 
-.search__form{
+.search__form {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    background-color: #f1f1f1;
+    border-radius: 25px;
+    padding: 5px 10px;
 }
 
 .search-input {
     border: none;
     outline: none;
-    padding: 10px;
-    font-size: 16px;
-    width: 15vw;
-    border-radius: 25px;
-
-}
-
-.header__link {
-    text-decoration: none;
-    color: black;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.header__link:hover {
-    color: gray;
+    background: transparent;
+    font-size: 14px;
+    padding: 8px;
+    width: 200px;
 }
 
 .search-button {
-    width: 3vw;
-    aspect-ratio: 1;
+    background: none;
     border: none;
-    border-radius: 15px;
     cursor: pointer;
-    object-fit: contain;
-    background-color: white;
-}
-
-.search-button:hover {
-    background-color: #cdcdcd;
+    padding: 5px;
 }
 
 .search__image {
-    width: 2vw;
-    aspect-ratio: 1;
+    width: 20px;
+    height: 20px;
 }
 
+/* Основной контент */
+.main {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Подвал */
 .footer {
-    background-color: #fc4e00;
-    min-height: 50vh;
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    margin-top: 40px;
 }
 
-/* static/css/base.css */
-.search-container {
-    margin: 20px auto;
+.footer__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
     text-align: center;
 }
 
-.search-container input[type="text"] {
-    padding: 10px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.search-container button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.search-container button:hover {
-    background-color: #0056b3;
-}
-
-.results-container {
-    margin: 20px auto;
-    max-width: 600px;
-}
-
-.results-container ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.results-container li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-}
-
-.results-container li:last-child {
-    border-bottom: none;
-}
-
-.footer {
-    color: white;
-    background-color: #fc4e00;
-    min-height: 20vh;
-    margin-top: 4vh;
-    display: flow-root; /* Чтобы margin дочерних элементов оставался внутри */
-}
-
-.footer__text-block {
-    text-align: center;
-    margin-top: 4vh;
-}
-/* Бегущая строка */
-.marquee {
-    white-space: nowrap;
+.footer__marquee {
     overflow: hidden;
-    box-sizing: border-box;
-    width: 100%;
+    white-space: nowrap;
+    margin-bottom: 20px;
+}
+
+.marquee {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 20s linear infinite;
 }
 
 .marquee-text {
     display: inline-block;
     padding-left: 100%;
     animation: marquee 20s linear infinite;
-    color: white;
-    font-size: 1.5em;
+    font-size: 16px;
+    color: #fff;
 }
 
 @keyframes marquee {
@@ -172,8 +140,18 @@ body {
     }
 }
 
-/* Остальные стили footer */
-.footer__text-block {
-    margin-top: 4vh;
-    overflow: hidden; /* Скрываем выходящий за границы текст */
+.footer__social {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-link {
+    color: #fff;
+    font-size: 24px;
+    transition: color 0.3s ease;
+}
+
+.social-link:hover {
+    color: #ff5500;
 }

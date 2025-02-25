@@ -7,73 +7,57 @@
 {% block content %}
 <div class="premier-movie__container">
     <div class="premier-movie__image-container">
-        <img src="static/premier/premier-poster.jpg" class="premier-movie__image">
+        <img src="static/premier/premier-poster.jpg" class="premier-movie__image" alt="Постер фильма">
     </div>
     <div class="premier-movie__text-container">
         <h2 class="premier-movie__header">Иван Царевич и Серый Волк 6</h2>
-        <p class="premier-movie__description">«Иван Царевич и Серый Волк 6» - это очередная
-            увлекательная история популярной анимационной серии,
-            известной своим ярким визуальным стилем и
-            захватывающими сюжетами, основанными на русских
-            народных сказках.</p>
-        <p>Оценка: 9,2</p>
-        <button class="premier-movie__watch-button"
-                onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">Смотреть фильм
+        <p class="premier-movie__description">«Иван Царевич и Серый Волк 6» - это очередная увлекательная история популярной анимационной серии, известной своим ярким визуальным стилем и захватывающими сюжетами, основанными на русских народных сказках.</p>
+        <div class="premier-movie__rating">
+            <span class="rating__value">9,2</span>
+            <span class="rating__text">Рейтинг Кинопоиска</span>
+        </div>
+        <button class="premier-movie__watch-button" onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">
+            Смотреть фильм
         </button>
         {% if flag %}
-        <form method="POST">
+        <form method="POST" class="comment-form">
             <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
-            <button type="submit">Отправить</button>
+            <button type="submit" class="comment-submit-button">Отправить</button>
         </form>
         {% endif %}
-        <!--<div class="comments">
+        <div class="comments">
             {% if comments %}
                 {% for comment in comments %}
                     <div class="comment">
-                        <h4>{{ comment.user.name }}</h4>
-                        <p>{{ comment.text }}</p>
-                        <small>{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+                        <div class="comment__avatar">
+                            <img src="static/image/profile-rev.png" alt="Аватар" class="comment__avatar-img" onerror="this.onerror=null; this.src='static/avatars/default-avatar.jpg';">
+                        </div>
+                        <div class="comment__content">
+                            <div class="comment__header">
+                                <h4 class="comment__username">{{ comment.user.name }}</h4>
+                                <small class="comment__timestamp">{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+                            </div>
+                            <p class="comment__text">{{ comment.text }}</p>
+                        </div>
                     </div>
                 {% endfor %}
             {% else %}
-                <p>Комментариев пока нет.</p>
-            {% endif %}
-        </div>-->
-        <div class="comments">
-            {% if comments %}
-            {% for comment in comments %}
-            <div class="comment">
-                <div class="comment__avatar">
-                    <img src="static/image/profile-rev.png" alt="Аватар" class="comment__avatar-img"
-                         onerror="this.onerror=null; this.src='static/avatars/default-avatar.jpg';">
-                </div>
-                <div class="comment__content">
-                    <div class="comment__header">
-                        <h4 class="comment__username">{{ comment.user.name }}</h4>
-                        <small class="comment__timestamp">{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
-                    </div>
-                    <p class="comment__text">{{ comment.text }}</p>
-                </div>
-            </div>
-            {% endfor %}
-            {% else %}
-            <p class="comments__empty">Комментариев пока нет.</p>
+                <p class="comments__empty">Комментариев пока нет.</p>
             {% endif %}
         </div>
     </div>
 </div>
+
 <div class="new-movies">
-    <h2>Новинки</h2>
+    <h2 class="new-movies__title">Новинки</h2>
     <div class="carousel">
         <div class="carousel-inner">
             {% for movie in new_movies %}
-            <div class="carousel-item">
-                <a class="new-movies_a"
-                   href="{{ url_for('movie_page', name=movie.name, desc=movie.description, poster=movie.poster_img) }}">
-                    <img src="static/posters/{{ movie.poster_img }}" class="new-movies__img"
-                         onerror="this.onerror=null; this.src='static/posters/no-image.jpg';">
-                </a>
-            </div>
+                <div class="carousel-item">
+                    <a class="new-movies__link" href="{{ url_for('movie_page', name=movie.name, desc=movie.description, poster=movie.poster_img) }}">
+                        <img src="static/posters/{{ movie.poster_img }}" class="new-movies__img" alt="{{ movie.name }}" onerror="this.onerror=null; this.src='static/posters/no-image.jpg';">
+                    </a>
+                </div>
             {% endfor %}
         </div>
         <button class="carousel-control-prev" onclick="prevSlide()">&#10094;</button>

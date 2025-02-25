@@ -1,62 +1,65 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="static/css/base.css" type="text/css">
     <link rel="icon" href="static/image/small_logo.svg" type="image/x-icon">
-
     {% block styles %}{% endblock %}
     <title>KinoStrelka</title>
 </head>
 <body>
-<header>
-    <div class="header">
+<header class="header">
+    <div class="header__container">
         <div class="header__logo">
-            <img src="static/image/logo.svg" alt="Логотип">
+            <img src="static/image/logo.svg" alt="Логотип KinoStrelka" class="logo">
         </div>
-        <nav>
+        <nav class="header__nav">
             <div class="header__menu">
                 <a href="/" class="header__link">Главная</a>
-                {% if flag == False %}
+                {% if not current_user.is_authenticated %}
                 <a href="{{ url_for('login') }}" class="header__link">Вход</a>
                 <a href="{{ url_for('signup') }}" class="header__link">Регистрация</a>
                 {% else %}
-                {% block header_links %}
-                {% if not hide_profile_logout %}
                 <a href="{{ url_for('profile') }}" class="header__link">Профиль</a>
                 <a href="{{ url_for('logout') }}" class="header__link">Выход</a>
-                {% endif %}
-                {% endblock %}
                 {% endif %}
             </div>
         </nav>
         <div class="search__container">
             <form class="search__form" action="{{ url_for('recomendations') }}" method="POST">
                 <input type="text" class="search-input" placeholder="Поиск фильмов" name="query">
-                <button class="search-button"><img src="static/image/search_logo.svg" alt="Логотип поиска"
-                                                   class="search__image"></button>
+                <button type="submit" class="search-button">
+                    <img src="static/image/search_logo.svg" alt="Поиск" class="search__image">
+                </button>
             </form>
         </div>
     </div>
 </header>
-<main>
+
+<main class="main">
     <div id="content">
         {% block content %}{% endblock %}
     </div>
 </main>
-<footer>
-    <div class="footer">
-        <div class="footer__text-block">
+
+<footer class="footer">
+    <div class="footer__container">
+        <div class="footer__marquee">
             <div class="marquee">
                 <span class="marquee-text">Сайт создан командой "Блины", состоящей из Матвея Пряникова, Глеба Лебедева, Глеба Гульовского и Эльмана Ахмедова при поддержке ЦЦОД "IT-Куб" г. Арзамас</span>
                 <span class="marquee-text">Сайт создан командой "Блины", состоящей из Матвея Пряникова, Глеба Лебедева, Глеба Гульовского и Эльмана Ахмедова при поддержке ЦЦОД "IT-Куб" г. Арзамас</span>
             </div>
         </div>
-
-        <div class="footer__socnet">
+        <div class="footer__social">
+            <a href="#" class="social-link"><i class="fa fa-vk"></i></a>
+            <a href="#" class="social-link"><i class="fa fa-telegram"></i></a>
+            <a href="#" class="social-link"><i class="fa fa-youtube"></i></a>
         </div>
     </div>
 </footer>
+
 {% block scripts %}{% endblock %}
 </body>
 </html>
