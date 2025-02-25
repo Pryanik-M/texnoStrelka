@@ -18,19 +18,19 @@
             народных сказках.</p>
         <button onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">Смотреть фильм</button>
         {% if flag %}
-            <form method="POST">
-                <input type="text" name="movie_name" placeholder="Название фильма" required>
-                <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
-                <button type="submit">Отправить</button>
-            </form>
+        <form method="POST">
+            <input type="text" name="movie_name" placeholder="Название фильма" required>
+            <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
+            <button type="submit">Отправить</button>
+        </form>
         {% endif %}
         <div class="comments">
             {% for comment in comments %}
-                <div class="comment">
-                    <h4>{{ comment.user.name }} - {{ comment.movie_name }}</h4>
-                    <p>{{ comment.text }}</p>
-                    <small>{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
-                </div>
+            <div class="comment">
+                <h4>{{ comment.user.name }} - {{ comment.movie_name }}</h4>
+                <p>{{ comment.text }}</p>
+                <small>{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -38,17 +38,35 @@
 <div class="new-movies">
     <h2>Новинки</h2>
 
+    <div class="carousel">
+        <div class="carousel-inner">
+            {% for movie in new_movies %}
+                <div class="carousel-item"><a class="new-movies_a" href="/movie_page/{{ movie.id }}"><img
+                        src="static/posters/{{ movie.poster_img }}" class="new-movies__img"></a></div>
+            {% endfor %}
+            <!-- Добавьте больше элементов по необходимости -->
+        </div>
+        <button class="carousel-control-prev" onclick="prevSlide()">&#10094;</button>
+        <button class="carousel-control-next" onclick="nextSlide()">&#10095;</button>
+    </div>
+<!--
     <div class="wrapper">
         <div class="carousel">
             <div class="carousel-inner">
                 {% for movie in new_movies %}
-                    <a class="new-movies_a" href="/movie_page/{{ movie.id }}"><img src="static/posters/{{ movie.poster_img }}" class="new-movies__img"></a>
+                <a class="new-movies_a" href="/movie_page/{{ movie.id }}"><img
+                        src="static/posters/{{ movie.poster_img }}" class="new-movies__img"></a>
                 {% endfor %}
             </div>
         </div>
         <button class="arrow left-arrow">&lt;</button>
         <button class="arrow right-arrow">&gt;</button>
     </div>
+-->
 
 </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="static/js/script.js"></script>
 {% endblock %}
