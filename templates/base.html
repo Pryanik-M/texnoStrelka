@@ -29,7 +29,7 @@
             </div>
         </nav>
         <div class="search__container">
-            <form action="{{ url_for('recomendations') }}" method="POST">
+            <form class="search__form" action="{{ url_for('recomendations') }}" method="POST">
                 <input type="text" class="search-input" placeholder="Поиск фильмов" name="query">
                 <button class="search-button"><img src="static/image/search_logo.svg" alt="Логотип поиска"
                                                    class="search__image"></button>

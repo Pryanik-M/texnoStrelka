@@ -1,11 +1,23 @@
-.movie__image {
-    width: 40vw;
+.movie__name {
+    text-align: center;
+}
+
+.movie__container {
+    display: flex;
 }
 
 .movie__image-container{
     display: flex;
 }
 
+.movie__image {
+    width: 40vw;
+}
+
 .movie__text-container{
     padding-inline:4vw;
+    font-family: "Tinkoff", Arial, sans-serif;
+}
+
+.movie__text{
 }

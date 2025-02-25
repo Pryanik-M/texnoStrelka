@@ -1,38 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{movie_name}}</title>
+{% extends "base.html" %}
+
+{% block styles %}
+
     <link rel="stylesheet" href="../static/css/movie_page.css">
-</head>
-<body>
-    <h1>{{ movie_name }}</h1>
+{% endblock %}
+
+{% block content %}
+<h1 class="movie__name">{{ movie_name }}</h1>
+<div class="movie__container">
     <div class="movie__image-container">
-        <img src="static/posters/{{ movie_poster }}" class="movie__image" onerror="this.onerror=null; this.src='static/posters/no-image.jpg';">
+        <img src="static/posters/{{ movie_poster }}" class="movie__image"
+             onerror="this.onerror=null; this.src='static/posters/no-image.jpg';">
     </div>
     <div class="movie__text-container">
-        <p>{{ movie_description }}</p>
+        <p class="movie__text">{{ movie_description }}</p>
         <button onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">Смотреть фильм</button>
         {% if flag %}
-            <form method="POST">
-                <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
-                <button type="submit">Отправить</button>
-            </form>
+        <form method="POST">
+            <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
+            <button type="submit">Отправить</button>
+        </form>
         {% endif %}
         <div class="comments">
             {% if comments %}
-                {% for comment in comments %}
-                    <div class="comment">
-                        <h4>{{ comment.user.name }}</h4>
-                        <p>{{ comment.text }}</p>
-                        <small>{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
-                    </div>
-                {% endfor %}
+            {% for comment in comments %}
+            <div class="comment">
+                <h4>{{ comment.user.name }}</h4>
+                <p>{{ comment.text }}</p>
+                <small>{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+            </div>
+            {% endfor %}
             {% else %}
-                <p>Комментариев пока нет.</p>
+            <p>Комментариев пока нет.</p>
             {% endif %}
         </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

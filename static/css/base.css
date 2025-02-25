@@ -1,3 +1,11 @@
+@font-face {
+    font-family: "Tinkoff";
+    src: url('../css/font/tinkoffsans-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -5,17 +13,22 @@ body {
     padding: 0;
 }
 
-
 .header {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding-block: 3vh;
     padding-inline: 3vw;
 }
 
-.search__container {
+.header__menu {
     display: flex;
     justify-content: space-between;
+    min-width: 35vw;
+}
+
+.search__container {
+    display: flex;
     align-items: center;
     background-color: #fff;
     padding: 10px;
@@ -25,10 +38,10 @@ body {
     height: 5vh;
 }
 
-.header__menu {
+.search__form{
     display: flex;
     justify-content: space-between;
-    min-width: 35vw;
+    align-items: center;
 }
 
 .search-input {
@@ -36,7 +49,7 @@ body {
     outline: none;
     padding: 10px;
     font-size: 16px;
-    width: 150px;
+    width: 15vw;
     border-radius: 25px;
 
 }
@@ -53,6 +66,8 @@ body {
 }
 
 .search-button {
+    width: 3vw;
+    aspect-ratio: 1;
     border: none;
     border-radius: 15px;
     cursor: pointer;
@@ -64,7 +79,8 @@ body {
 }
 
 .search__image {
-    height: 5vh;
+    width: 2vw;
+    aspect-ratio: 1;
 }
 
 .footer {
