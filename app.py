@@ -203,13 +203,14 @@ def profile():
     return render_template('profile.html', name=current_user.name, surname=current_user.surname,
                            age=current_user.age, email=current_user.email, image='static/image/profile_rev.png')
 
+
 @app.route('/movie')
 def movie():
     video_path = request.args.get('name', 'videos/primer.mp4')
     return render_template('movie.html', name=video_path)
 
 
-@app.route('/movie_page/<int:movie_id>')
+@app.route('/movie_page/<int:movie_id>/')
 def movie_page(movie_id):
     flag_user = current_user.is_authenticated
     movie = Movie.query.filter_by(
