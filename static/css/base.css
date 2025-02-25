@@ -11,6 +11,7 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    --orange: #ff5500;
 }
 
 .header {
@@ -72,10 +73,11 @@ body {
     border-radius: 15px;
     cursor: pointer;
     object-fit: contain;
+    background-color: white;
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: #cdcdcd;
 }
 
 .search__image {
@@ -87,6 +89,7 @@ body {
     background-color: #fc4e00;
     min-height: 50vh;
 }
+
 /* static/css/base.css */
 .search-container {
     margin: 20px auto;

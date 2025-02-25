@@ -3,7 +3,7 @@
 }
 
 .premier-movie__image {
-    width: 40vw;
+    width: 30vw;
 }
 
 .premier-movie__text-container{
@@ -12,6 +12,20 @@
 
 .premier-movie__header{
     text-align: center;
+}
+
+.premier-movie__watch-button{
+    width: 10vw;
+    height: 4vh;
+    border-radius: 0.5vw;
+    text-align: center;
+    color: white;
+    background-color: var(--orange);
+    border: none;
+}
+
+.premier-movie__watch-button:hover{
+    background-color: #fb8500;
 }
 
 .new-movies {
@@ -59,4 +73,68 @@
 
 .carousel-control-next {
   right: 0;
+}
+
+.comments {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment__avatar {
+    margin-right: 1rem;
+}
+
+.comment__avatar-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comment__content {
+    flex: 1;
+}
+
+.comment__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.comment__username {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2a5885;
+}
+
+.comment__timestamp {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.comment__text {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    color: #333;
+}
+
+.comments__empty {
+    text-align: center;
+    color: #666;
+    font-style: italic;
 }
