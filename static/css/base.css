@@ -115,3 +115,7 @@ body {
 .results-container li:last-child {
     border-bottom: none;
 }
+
+.footer {
+    color: white;
+}

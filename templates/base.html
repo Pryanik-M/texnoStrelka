@@ -16,15 +16,15 @@
             <div class="header__menu">
                 <a href="/" class="header__link">Главная</a>
                 {% if flag == False %}
-                    <a href="{{ url_for('login') }}" class="header__link">Вход</a>
-                    <a href="{{ url_for('signup') }}" class="header__link">Регистрация</a>
+                <a href="{{ url_for('login') }}" class="header__link">Вход</a>
+                <a href="{{ url_for('signup') }}" class="header__link">Регистрация</a>
                 {% else %}
-                    {% block header_links %}
-                        {% if not hide_profile_logout %}
-                            <a href="{{ url_for('profile') }}" class="header__link">Профиль</a>
-                            <a href="{{ url_for('logout') }}" class="header__link">Выход</a>
-                        {% endif %}
-                    {% endblock %}
+                {% block header_links %}
+                {% if not hide_profile_logout %}
+                <a href="{{ url_for('profile') }}" class="header__link">Профиль</a>
+                <a href="{{ url_for('logout') }}" class="header__link">Выход</a>
+                {% endif %}
+                {% endblock %}
                 {% endif %}
             </div>
         </nav>
@@ -32,7 +32,7 @@
             <form action="{{ url_for('recomendations') }}" method="POST">
                 <input type="text" class="search-input" placeholder="Поиск фильмов" name="query">
                 <button class="search-button"><img src="static/image/search_logo.svg" alt="Логотип поиска"
-                                               class="search__image"></button>
+                                                   class="search__image"></button>
             </form>
         </div>
     </div>
@@ -44,7 +44,11 @@
 </main>
 <footer>
     <div class="footer">
+        <p>Сайт создан командой "Блины", состоящей из Матвея Пряникова, Глеба Лебедева, Глеба Гульовского и Эльмана
+            Ахмедова при поддержке ЦЦОД "IT-Куб" г. Арзамаса</p>
+        <div class="footer__socnet"></div>
     </div>
 </footer>
+{% block scripts %}{% endblock %}
 </body>
 </html>
