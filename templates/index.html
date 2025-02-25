@@ -42,7 +42,8 @@
         <div class="carousel">
             <div class="carousel-inner">
                 {% for movie in new_movies %}
-                    <a class="new-movies_a" href="/movie_page/{{ movie.id }}"><img src="static/posters/{{ movie.poster_img }}" class="new-movies__img"></a>
+                    <a class="new-movies_a" href="{{ url_for('movie_page', name=movie.name, poster=movie.poster_img, desc=movie.description) }}">
+                        <img src="static/posters/{{ movie.poster_img }}" class="new-movies__img"></a>
                 {% endfor %}
             </div>
         </div>
