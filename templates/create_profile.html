@@ -3,29 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редактировать профиль</title>
+    <title>Редактирование профиля</title>
+    <link rel="stylesheet" href="../static/css/change_the_profile.css">
 </head>
 <body>
-    <div class="register-form-container">
-        <form method="POST">
-            <h1 class="form-title">Редактировать</h1>
-            <div class="form-fields">
-                <div class="form-field">
-                    <input type="text" name="surname" placeholder="Фамилия" value="{{surname}}">
-                </div>
-                <div class="form-field">
-                    <input type="text" name="name" placeholder="Имя" value="{{name}}">
-                </div>
-                <div class="form-field">
-                    <input type="text" name="age" placeholder="Возраст" value="{{age}}">
-                </div>
-            </div>
-            <div class="form-buttons">
-                <p>{{err}}</p>
-                <button class="button">Сохранить</button>
-                <button type="reset" class="button"
-                        onclick="location.href='{{ url_for('send', email=email, reset=1) }}'">Смена пароля</button>
-            </div>
-        </form>
-    </div>
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="cross"><g><path d="m19 2h-14c-1.6542969 0-3 1.3457031-3 3v14c0 1.6542969 1.3457031 3 3 3h14c1.6542969 0 3-1.3457031 3-3v-14c0-1.6542969-1.3457031-3-3-3z" fill="#f44336"></path><path d="m15.7070313 8.2929688c-.390625-.390625-1.0234375-.390625-1.4140625 0l-2.2929688 2.2929687-2.2929687-2.2929687c-.390625-.390625-1.0234375-.390625-1.4140625 0s-.390625 1.0234375 0 1.4140625l2.2929687 2.2929687-2.2929688 2.2929688c-.390625.390625-.390625 1.0234375 0 1.4140625.1953126.1953125.4511719.2929687.7070313.2929687s.5117188-.0976563.7070313-.2929688l2.2929687-2.2929687 2.2929688 2.2929688c.1953125.1953125.4511718.2929687.7070312.2929687s.5117188-.0976563.7070313-.2929688c.390625-.390625.390625-1.0234375 0-1.4140625l-2.2929688-2.2929687 2.2929688-2.2929688c.390625-.3906249.390625-1.0234374 0-1.4140624z" fill="#e0e0e0" style="fill: rgb(255, 255, 255);"></path></g></g></svg>
+<div class="box">
+    <div class="box_two">
+    <form method="POST">
+        <div class="text_heading"><p>Профиль</p></div>
+        <div class="input_fields">
+            <input class="name_one" type="text" name="name_one" placeholder="Имя" value="{{name}}">
+            <input class="name_two" type="text" name="name_two" placeholder="Фамилия" value="{{surname}}">
+            <input class="age" type="text" name="age" placeholder="Возраст" value="{{age}}">
+        </div>
+        <div class="buttons">
+            <p>{{err}}</p>
+            <button class="button_1">Сохранить</button>
+            <button class="button_2" type="reset" onclick="location.href='{{ url_for('send', email=email, reset=1) }}'">Сменить пароль</button>
+        </div>
+    </form>
+</div>
+</div>
+
 </body>
+</html>

@@ -1,146 +1,98 @@
-* {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
+ body {
+    background-color: #f6f7f8;
+    display: flex;
+    justify-content: center; /* Выравнивание по центру горизонтали */
+    align-items: center; /* Выравнивание по центру вертикали */
+    height: 100vh; /* Занимает всю высоту экрана */
+    margin: 0; /* Убираем отступы по умолчанию */
 }
 
-nav {
-    width: 100%;
-    height: 75px;
-    line-height: 75px;
-    padding: 0px 100px;
-    position: fixed;
+.box {
+    width: 600px;
+    height: 400px;
     background-color: white;
-    box-shadow: 0 5px 5px -5px rgba(0, 0, 0, .5);
-}
-
-nav .logo a {
-    font-size: 25px;
-    float: left;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    color: black;
-    text-decoration: none;
-
-}
-
-nav ul {
-    float: right;
-}
-
-nav li {
-    display: inline-block;
-    list-style: none;
-}
-
-nav li a {
-    font-size: 18px;
-    text-transform: uppercase;
-    padding: 0px 30px;
-    color: black;
-    text-decoration: none;
-}
-
-nav li a:hover {
-    color: #6c757d;
-}
-
-main {
+    border-radius: 10px;
     display: flex;
-    justify-content: center;
-    padding-top: 90px;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    flex-direction: column;
+    align-items: center; /* Выравнивание содержимого по центру горизонтали */
+    padding: 20px; /* Добавляем отступы внутри .box */
 }
 
-input[type="text"] {
-    height: 45px;
-    width: 100%;
-    color: #3B5983;
-    font-size: 14px;
-    line-height: 16px;
-    border: 2px solid #E9F2FF;
-    border-radius: 5px;
-    padding-left: 25px;
-}
-
-input[type="checkbox"] {
-    width: fit-content;
-}
-
-.b_1 {
-    height: 20px;
-    width: 100%;
-    border: 2px solid #E9F2FF;
-    border-radius: 5px;
-    padding-left: 25px;
-    margin-bottom: 13px;
-}
-
-p {
-    padding-left: 5px;
-    line-height: 20px;
-}
-
-.form-checkbox {
+.input_fields {
     display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 450px;
+    margin-top: 30px;
 }
 
-.register-form-container {
-    width: 515px;
-    background: #ffffff;
-    box-shadow: 0px 6px 50px rgba(217, 229, 255, 0.7);
-    border-radius: 20px;
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 38px;
-    padding-bottom: 38px;
-
+.text_heading {
+    text-align: center; /* Выравнивание текста по центру */
+    width: 100%; /* Занимает всю ширину .box */
 }
 
-.form-title {
-    color: #30507D;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 23px;
-    padding-bottom: 38px;
+.buttons {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px; /* Расстояние между кнопками 50px */
 }
 
-.form-field {
-    margin-bottom: 13px;
-}
-
-.button {
-    border: none;
-    font-weight: bold;
-    font-size: 14px;
-    display: block;
-    height: 45px;
-    background: #247fff;
+input {
+    height: 40px;
     border-radius: 5px;
-    color: #fff;
+    border: 1px solid #244a7f0f;
+    background-color: #244a7f0f;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    padding-left: 10px;
+    font-size: 14px;
+    color: #000000cc;
+}
+
+input:focus {
+    background-color: white;
+    border-color: black;
+    outline: none;
+}
+
+.button, .button_2 {
+    width: 215px;
+    height: 45px;
+    border-radius: 5px;
+    background-color: #ff5500;
+    color: white;
+    border: 1px solid #fb8500;
+    font-size: 14px;
     cursor: pointer;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 45px;
-    width: 100%
+}
+.box_two{
+    margin-top: 10px;
+}
+@font-face {
+    font-family: "Tinkoff";
+    src: url('../font/tinkoffsans-medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
 }
 
-.button:hover {
-    background-color: #0D6CF2;
+p{
+    color: #000000cc;
+    font-family: "Tinkoff", Arial, sans-serif;
+    font-size: 30px;
 }
-
-.register-form-container img {
-    display: block;
-    border-radius: 50%;
-    width: 200px;
-    height: 200px;
-    margin: auto;
-    margin-bottom: 20px;
-
+svg {
+    width: 30px; /* Ширина SVG */
+    height: 30px; /* Высота SVG */
+    position: absolute; /* Абсолютное позиционирование */
+    top: 100px; /* Отступ сверху */
+    right: 380px; /* Отступ справа */
+    cursor: pointer; /* Курсор в виде указателя */
 }
-
-.form-buttons {
-    padding-top: 10px;
+.button_1:hover {
+    background-color: #f77f00;
+    transition: 0.2s;
+}
+.button_2:hover {
+    background-color: #f77f00;
+    transition: 0.2s;
 }

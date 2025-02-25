@@ -15,7 +15,6 @@
         <nav>
             <div class="header__menu">
                 <a href="/" class="header__link">Главная</a>
-                <a href="/recomendations" class="header__link">Рекомендации</a>
                 {% if flag == False %}
                     <a href="{{ url_for('login') }}" class="header__link">Вход</a>
                     <a href="{{ url_for('signup') }}" class="header__link">Регистрация</a>

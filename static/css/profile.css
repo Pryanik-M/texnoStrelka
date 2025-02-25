@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Tinkoff";
-    src: url('../static/css/font/tinkoffsans-medium.ttf') format('truetype');
+    src: url('../css/font/tinkoffsans-medium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -65,7 +65,7 @@ header {
 .button_1 {
     font-family: "Jost", sans-serif;
     font-weight: 400;
-    width: 150px;
+    width: 170px;
     height: 40px;
     font-size: 15px;
     border: none;
@@ -76,13 +76,13 @@ header {
 }
 
 .button_1:hover {
-    background-color: #FF5500;
+    background-color: #fb8500;
 }
 
 .button_2 {
     font-family: "Jost", sans-serif;
     font-weight: 400;
-    width: 150px;
+    width: 170px;
     height: 40px;
     font-size:15px;
     border: 1px solid #FF5500;
@@ -102,7 +102,7 @@ header {
 .buttons-container {
     display: flex;
     margin-top: 20px;
-    gap: 10px; /* Расстояние между кнопками */
+    gap: 22px; /* Расстояние между кнопками */
 }
 .text{
     border: 1px solid #FF5500;
