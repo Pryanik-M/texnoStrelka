@@ -1,14 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 {% if results %}
     <div class="results-container">
         <h2>Результаты поиска:</h2>
         <ul>
             {% for movie in results %}
-                <li>
-                    <strong>{{ movie.title }}</strong> ({{ movie.release_date }})
+                <li class="movie-item">
+                    <h3>{{ movie_title }}</h3>
+                    {% if movie.genres %}
+                        <p>Жанры: {{ movie_genres }}</p>
+                    {% endif %}
+                    <div class="description">
+                        {{ movie_description|truncate(300) }}
+                    </div>
                 </li>
             {% endfor %}
         </ul>

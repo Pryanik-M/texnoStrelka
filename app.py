@@ -76,6 +76,18 @@ def recommend_movies(query_text, model, knn, movies, top_n=5):
         return recommendations.head(top_n)
 
 
+def load_plot_summaries(file_path):
+    plot_summaries = {}
+    with open(file_path, 'r', encoding='utf-8') as file:
+        for line in file:
+            parts = line.strip().split('\t')
+            if len(parts) >= 2:
+                movie_id = int(parts[0])
+                description = parts[1]
+                plot_summaries[movie_id] = description
+    return plot_summaries
+
+
 def search_movies_by_title(query, movies, top_n=5):
     translated_query = translate_if_needed(query)
     mask = movies['title'].str.contains(translated_query, case=False, na=False)
@@ -209,12 +221,16 @@ def movie():
     return render_template('movie.html', name=video_path)
 
 
-@app.route('/movie_page/<int:movie_id>')
-def movie_page(movie_id):
+@app.route('/movie_page')
+def movie_page():
     flag_user = current_user.is_authenticated
-    movie = Movie.query.filter_by(
-        id=movie_id).first()
-    return render_template('movie_page.html', flag=flag_user, movie=movie)
+    name = request.args.get('name')
+    poster = request.args.get('poster')
+    description = request.args.get('desc')
+    return render_template('movie_page.html',
+                         movie_name=name,
+                         movie_poster=poster,
+                         movie_description=description, flag=flag_user)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
@@ -274,20 +290,35 @@ def login():
 @app.route('/recomendations', methods=['GET', 'POST'])
 def recomendations():
     results = None
+    plot_summaries_path = "MovieSummaries/plot_summaries.txt"
+    plot_summaries = load_plot_summaries(plot_summaries_path)
+
     if request.method == 'POST':
         query = request.form.get('query')
         if query:
             knn_path = os.path.join(MODEL_DIR, "knn_model.pkl")
             embeddings_path = os.path.join(MODEL_DIR, "movie_embeddings.npy")
             metadata_path = os.path.join(MODEL_DIR, "movies_metadata.pkl")
+
             if os.path.exists(knn_path) and os.path.exists(embeddings_path) and os.path.exists(metadata_path):
                 knn = joblib.load(knn_path)
                 movies = pd.read_pickle(metadata_path)
-                model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', device=device)
+                model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2',
+                                            device=device)
                 translated_query = translate_if_needed(query)
-                print(f"[INFO] Запрос после перевода: {translated_query}")
+
                 recommendations = recommend_movies(translated_query, model, knn, movies, top_n=None)
-                results = recommendations[['title']].to_dict('records')
+
+                # Собираем данные для передачи в шаблон
+                results = []
+                for _, row in recommendations.iterrows():
+                    movie_id = row['movie_id']
+                    results.append({
+                        'title': row['title'],
+                        'genres': row.get('genres', ''),
+                        'description': plot_summaries.get(movie_id, "Описание отсутствует")
+                    })
+
     return render_template('recomendations.html', results=results)
 
 
