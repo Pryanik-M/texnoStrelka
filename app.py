@@ -273,7 +273,7 @@ def movie_page():
             )
             db.session.add(new_comment)
             db.session.commit()
-            return redirect(url_for('movie_page', name=name, poster=poster, desc=description))
+            return redirect(url_for('movie', name=name, poster=poster, desc=description))
 
     return render_template('movie_page.html',
                            movie_name=name,
