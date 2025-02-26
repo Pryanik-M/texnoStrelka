@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_required, current_user, logout_user, login_user
 import smtplib
@@ -64,8 +64,33 @@ class Movie(db.Model):
     duration = db.Column(db.String(100))
 
 
+class Rating(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    movie_id = db.Column(db.Integer, nullable=False)
+    score = db.Column(db.Integer, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.now())
+
+
 with app.app_context():
     db.create_all()
+
+
+@app.route('/rate_movie', methods=['POST'])
+def rate_movie():
+    data = request.get_json()
+    movie_id = data['movie_id']
+    rating_value = data['score']
+    if not current_user.is_authenticated:
+        return jsonify({'success': False})
+    user_id = current_user.id  # Предположим, что у вас есть текущий пользователь
+
+    # Создаем новую запись в базе данных
+    new_rating = Rating(user_id=user_id, movie_id=movie_id, score=rating_value, timestamp=datetime.now())
+    db.session.add(new_rating)
+    db.session.commit()
+
+    return jsonify({'success': True})
 
 
 def recommend_movies(query_text, top_n=5):
