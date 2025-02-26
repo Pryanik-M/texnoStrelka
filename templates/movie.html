@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +7,65 @@
     <link rel="stylesheet" href="../static/css/movie.css">
 </head>
 <body>
-    <video controls preload="metadata" muted autoplay>
-        <source src="{{ url_for('static', filename=name) }}" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+    <div class="container">
+        <div class="video-player">
+            <iframe
+                width="100%"
+                height="400"
+                src="static/videos/primer.mp4"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div class="comments-section">
+    <h2>Комментарии</h2>
+    {% if comments %}
+        <div class="comments-list" id="comments-list">
+            {% for comment in comments %} <!-- Ограничиваем количество комментариев до 3 -->
+                <div class="comment">
+                    <div class="comment__avatar">
+                        <img src="static/image/profile-rev.png" alt="Аватар" class="comment__avatar-img"
+                            onerror="this.onerror=null; this.src='static/avatars/default-avatar.jpg';">
+                    </div>
+                    <div class="comment__content">
+                        <div class="comment__header">
+                            <h4 class="comment__username">{{ comment.user.name }}</h4>
+                            <small class="comment__timestamp">{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
+                        </div>
+                        <p class="comment__text">{{ comment.text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="comments__empty">Комментариев пока нет.</p>
+    {% endif %}
+    {% if flag %}
+        <form method="POST">
+            <textarea id="comment-input" name="comment_text" placeholder="Комментарий..." required></textarea>
+            <button type="submit">Отправить</button>
+        </form>
+    {% endif %}
+</div>
+        <div class="rating-section">
+            <h2>Оцените видео</h2>
+            <div class="rating-stars">
+                <span class="star" data-value="1">★</span>
+                <span class="star" data-value="2">★</span>
+                <span class="star" data-value="3">★</span>
+                <span class="star" data-value="4">★</span>
+                <span class="star" data-value="5">★</span>
+                <span class="star" data-value="6">★</span>
+                <span class="star" data-value="7">★</span>
+                <span class="star" data-value="8">★</span>
+                <span class="star" data-value="9">★</span>
+                <span class="star" data-value="10">★</span>
+            </div>
+            <p>Ваша оценка: <span id="selected-rating">0</span>/10</p>
+        </div>
+    </div>
+
+    <script src="../static/js/movie.js"></script>
 </body>
 </html>
