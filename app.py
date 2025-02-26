@@ -16,7 +16,6 @@ from langdetect import detect
 
 app = Flask(__name__, static_folder='static')
 
-
 app.config['SECRET_KEY'] = 'hardsecretkey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dbase.db'
 # app.config['STATIC'] = 'static'
@@ -66,14 +65,11 @@ with app.app_context():
     db.create_all()
 
 
-def recommend_movies(query_text, model, knn, movies, top_n=5):
-    query_embed = model.encode(query_text, device=device)
-    distances, indices = knn.kneighbors([query_embed])
-    recommendations = movies.iloc[indices[0]]
-    if top_n is None:
-        return recommendations
-    else:
-        return recommendations.head(top_n)
+def recommend_movies(query_text, top_n=5):
+    query_embed = MODEL.encode(query_text, device=device, convert_to_tensor=True)
+    distances, indices = KNN.kneighbors(query_embed.cpu().numpy().reshape(1, -1))
+    recommendations = MOVIES_METADATA.iloc[indices[0]]
+    return recommendations.head(top_n) if top_n else recommendations
 
 
 def load_plot_summaries(file_path):
@@ -86,6 +82,12 @@ def load_plot_summaries(file_path):
                 description = parts[1]
                 plot_summaries[movie_id] = description
     return plot_summaries
+
+
+MODEL = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2', device=device)
+PLOT_SUMMARIES = load_plot_summaries("MovieSummaries/plot_summaries.txt")
+KNN = joblib.load(os.path.join(MODEL_DIR, "knn_model.pkl"))
+MOVIES_METADATA = pd.read_pickle(os.path.join(MODEL_DIR, "movies_metadata.pkl"))
 
 
 def search_movies_by_title(query, movies, top_n=5):
@@ -143,7 +145,8 @@ def index():
             return redirect(url_for('login'))
 
     # Загрузка комментариев только для фильма "Иван Царевич и Серый Волк 6"
-    comments = Comment.query.filter_by(movie_name="Иван Царевич и Серый Волк 6").order_by(Comment.timestamp.desc()).all()
+    comments = Comment.query.filter_by(movie_name="Иван Царевич и Серый Волк 6").order_by(
+        Comment.timestamp.desc()).all()
 
     flag_user = current_user.is_authenticated
     new_movies_id = [1, 2, 3, 4, 5, 6, 7, 8]  # Идентификаторы фильмов для раздела "новые"
@@ -219,6 +222,7 @@ def profile():
     return render_template('profile.html', name=current_user.name, surname=current_user.surname,
                            age=current_user.age, email=current_user.email, image='static/image/profile_rev.png')
 
+
 @app.route('/movie', methods=['GET', 'POST'])
 def movie():
     # video_path = request.args.get('name', 'videos/primer.mp4')
@@ -273,7 +277,7 @@ def movie_page():
             )
             db.session.add(new_comment)
             db.session.commit()
-            return redirect(url_for('movie', name=name, poster=poster, desc=description))
+            return redirect(url_for('movie_page', name=name, poster=poster, desc=description))
 
     return render_template('movie_page.html',
                            movie_name=name,
@@ -340,31 +344,15 @@ def login():
 @app.route('/recomendations', methods=['GET', 'POST'])
 def recomendations():
     results = None
-    plot_summaries_path = "MovieSummaries/plot_summaries.txt"
-    plot_summaries = load_plot_summaries(plot_summaries_path)
-
     if request.method == 'POST':
         query = request.form.get('query')
         if query:
-            knn_path = os.path.join(MODEL_DIR, "knn_model.pkl")
-            embeddings_path = os.path.join(MODEL_DIR, "movie_embeddings.npy")
-            metadata_path = os.path.join(MODEL_DIR, "movies_metadata.pkl")
-
-            if os.path.exists(knn_path) and os.path.exists(embeddings_path) and os.path.exists(metadata_path):
-                knn = joblib.load(knn_path)
-                movies = pd.read_pickle(metadata_path)
-                model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2',
-                                            device=device)
-                translated_query = translate_if_needed(query)
-
-                recommendations = recommend_movies(translated_query, model, knn, movies, top_n=None)
-                results = []
-                for _, row in recommendations.iterrows():
-                    movie_id = row['movie_id']
-                    results.append({
-                        'title': row['title'],
-                        'description': plot_summaries.get(movie_id, "Описание отсутствует")
-                    })
+            translated_query = translate_if_needed(query)
+            recommendations = recommend_movies(translated_query, top_n=None)
+            results = [{
+                'title': row['title'],
+                'description': PLOT_SUMMARIES.get(row['movie_id'], "Описание отсутствует")
+            } for _, row in recommendations.iterrows()]
 
     return render_template('recomendations.html', results=results)
 
