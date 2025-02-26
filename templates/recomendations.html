@@ -3,24 +3,32 @@
     <link rel="stylesheet" href="static/css/recomendations.css" type="text/css">
 {% endblock %}
 {% block content %}
-{% if results %}
+<div class="search-results">
+    {% if results %}
     <div class="results-container">
-        <h2>Результаты поиска:</h2>
-        <ul>
-
+        <h1 class="results-title">Найдено {{ results|length }} результатов</h1>
+        <div class="movies-grid">
             {% for movie in results %}
-                <div class="result_elem">
-                <a style="text-decoration: none; color: black;" href="{{ url_for('movie_page', name=movie.title,
-                 desc=movie.description, poster='default.jpg') }}"><li class="movie-item">
-                    <img src="static/posters/default.jpg">
-                    <h3>{{ movie.title }}</h3>
-                    <div class="description">
-                        {{ movie.description|truncate(300) }}
+            <a href="{{ url_for('movie_page', name=movie.title, desc=movie.description, poster='default.jpg') }}"
+               class="movie-card">
+                <div class="poster-container">
+                    <img src="static/posters/default.jpg" alt="{{ movie.title }}" class="movie-poster">
+                    <div class="movie-rating">
+                        <span class="rating-value">7.8</span>
                     </div>
-                </li></a>
                 </div>
+                <div class="movie-info">
+                    <h3 class="movie-title">{{ movie.title }}</h3>
+                    <div class="movie-meta">
+                        <span class="meta-item">{{ movie.year }}</span>
+                        <span class="meta-item">{{ movie.genre }}</span>
+                    </div>
+                    <p class="movie-description">{{ movie.description|truncate(120) }}</p>
+                </div>
+            </a>
             {% endfor %}
-        </ul>
+        </div>
     </div>
-{% endif %}
+    {% endif %}
+</div>
 {% endblock %}

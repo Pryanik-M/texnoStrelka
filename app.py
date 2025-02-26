@@ -59,6 +59,9 @@ class Movie(db.Model):
     poster_img = db.Column(db.String(100), unique=True)
     description = db.Column(db.String(200))
     release_year = db.Column(db.Integer())
+    country = db.Column(db.String(100))
+    genre = db.Column(db.String(100))
+    duration = db.Column(db.String(100))
 
 
 with app.app_context():
@@ -225,14 +228,9 @@ def profile():
 
 @app.route('/movie', methods=['GET', 'POST'])
 def movie():
-    # video_path = request.args.get('name', 'videos/primer.mp4')
-    # return render_template('movie.html', name=video_path)
     flag_user = current_user.is_authenticated
     name = request.args.get('name')
-
-    # Загрузка комментариев для текущего фильма
     comments = Comment.query.filter_by(movie_name=name).order_by(Comment.timestamp.desc()).all()
-
     # Обработка POST-запроса (отправка комментария)
     if request.method == 'POST' and flag_user:
         comment_text = request.form.get('comment_text')  # Название фильма больше не берем из формы
@@ -245,7 +243,6 @@ def movie():
             db.session.add(new_comment)
             db.session.commit()
             return redirect(url_for('movie', name=name))
-
     return render_template('movie.html',
                            movie_name=name,
                            comments=comments,
@@ -258,21 +255,31 @@ def movie_page():
     name = request.args.get('name')
     poster = request.args.get('poster')
     description = request.args.get('desc')
-
+    # Получаем данные о фильме из базы данных
+    movie = Movie.query.filter_by(name=name).first()
+    # Если фильм не найден, используем значения по умолчанию
+    if not movie:
+        movie = Movie(
+            name=name,
+            poster_img=poster,
+            description=description,
+            release_year=2023,  # Год по умолчанию
+            country="Россия",   # Страна по умолчанию
+            genre="Комедия",    # Жанр по умолчанию
+            duration="90 мин."  # Длительность по умолчанию
+        )
     # Проверка изображения
     if not os.path.exists(os.path.join('static', 'posters', poster)):
         poster = 'no-image.jpg'
-
     # Загрузка комментариев для текущего фильма
     comments = Comment.query.filter_by(movie_name=name).order_by(Comment.timestamp.desc()).all()
-
     # Обработка POST-запроса (отправка комментария)
     if request.method == 'POST' and flag_user:
-        comment_text = request.form.get('comment_text')  # Название фильма больше не берем из формы
+        comment_text = request.form.get('comment_text')
         if comment_text:
             new_comment = Comment(
                 user_id=current_user.id,
-                movie_name=name,  # Берем название из текущего контекста
+                movie_name=name,
                 text=comment_text
             )
             db.session.add(new_comment)
@@ -280,9 +287,13 @@ def movie_page():
             return redirect(url_for('movie_page', name=name, poster=poster, desc=description))
 
     return render_template('movie_page.html',
-                           movie_name=name,
-                           movie_poster=poster,
-                           movie_description=description,
+                           movie_name=movie.name,
+                           movie_poster=movie.poster_img,
+                           movie_description=movie.description,
+                           release_year=movie.release_year,
+                           genres=movie.genre,
+                           country=movie.country,
+                           duration=movie.duration,
                            comments=comments,
                            flag=flag_user)
 

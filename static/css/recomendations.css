@@ -1,96 +1,120 @@
+:root {
+    --primary-red: #ff2e1f;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --border-color: #e0e0e0;
+    --card-bg: #ffffff;
+}
+
+.search-results {
+    background: #f8f8f8;
+    min-height: 100vh;
+    padding: 40px 0;
+}
+
 .results-container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
+    padding: 0 20px;
 }
 
-.results-container h2 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
+.results-title {
+    font-size: 28px;
+    color: var(--text-primary);
+    margin-bottom: 30px;
+    font-weight: 500;
 }
 
-/* Стили для списка фильмов */
-.results-container ul {
-    list-style-type: none;
-    padding: 0;
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
 }
 
-.results-container ul li {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 20px;
-}
-
-/* Стили для ссылок */
-.results-container ul li a {
+.movie-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
-    color: #000; /* Черный цвет ссылок по умолчанию */
-    display: flex;
-    align-items: flex-start;
+    color: var(--text-primary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-.results-container ul li a:hover {
-    color: #ff5500; /* Цвет ссылок при наведении */
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
 }
 
-/* Стили для заголовка фильма */
-.results-container ul li h3 {
-    font-size: 20px;
-    margin: 0 0 10px 0;
-    color: #333;
+.poster-container {
+    position: relative;
+    height: 380px;
 }
 
-/* Стили для описания фильма */
-.results-container ul li .description {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.5;
-}
-
-/* Стили для картинки фильма */
-.results-container ul li img {
-    width: 100px;
-    height: 150px;
-    margin-right: 20px;
-    border-radius: 5px;
+.movie-poster {
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-}
-/* Стили для каждого элемента результата */
-.result_elem {
-    display: flex; /* Используем flexbox для выравнивания */
-    align-items: flex-start; /* Выравниваем элементы по верхнему краю */
-    flex-direction: column;
-    margin-bottom: 20px; /* Отступ между элементами */
-    border-bottom: 1px solid #e0e0e0; /* Граница между элементами */
-    padding-bottom: 20px; /* Отступ снизу */
+    border-bottom: 1px solid var(--border-color);
 }
 
-/* Стили для изображения */
-.result_elem img {
-    width: 4vw; /* Ширина изображения */
-    height: 4vh; /* Высота изображения */
-    margin-right: 20px; /* Отступ справа от изображения */
-    border-radius: 5px; /* Закругленные углы */
-    object-fit: cover; /* Обрезка изображения по размеру */
+.movie-rating {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(0,0,0,0.7);
+    padding: 6px 12px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
 }
 
-/* Стили для текстового блока (название и описание) */
-.result_elem .movie-item {
-    flex: 1; /* Занимает оставшееся пространство */
-}
-
-/* Стили для заголовка фильма */
-.result_elem .movie-item h3 {
-    font-size: 20px;
-    margin: 0 0 10px 0; /* Отступ снизу */
-    color: #333;
-}
-
-/* Стили для описания фильма */
-.result_elem .movie-item .description {
+.rating-value::after {
+    content: '★';
+    color: var(--primary-red);
+    margin-left: 5px;
     font-size: 14px;
-    color: #666;
-    line-height: 1.5; /* Межстрочный интервал */
+}
+
+.movie-info {
+    padding: 15px;
+}
+
+.movie-title {
+    font-size: 18px;
+    margin: 0 0 8px 0;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.movie-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.movie-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .movies-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .poster-container {
+        height: 300px;
+    }
+
+    .results-title {
+        font-size: 24px;
+    }
 }

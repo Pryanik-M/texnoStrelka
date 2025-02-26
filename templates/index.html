@@ -19,12 +19,6 @@
         <button class="premier-movie__watch-button" onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">
             Смотреть фильм
         </button>
-        {% if flag %}
-        <form method="POST" class="comment-form">
-            <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
-            <button type="submit" class="comment-submit-button">Отправить</button>
-        </form>
-        {% endif %}
     </div>
 </div>
 
