@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="../static/css/video.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="video-player">
+            <iframe 
+                width="100%" 
+                height="400" 
+                src="static/videos/primer.mp4" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div class="comments-section">
+            <h2>Комментарии</h2>
+            <div class="comments-list" id="comments-list">
+                <!-- Комментарии будут добавляться сюда -->
+            </div>
+            <form id="comment-form">
+                <textarea 
+                    id="comment-input" 
+                    placeholder="Напишите ваш комментарий..." 
+                    required
+                ></textarea>
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+        <div class="rating-section">
+            <h2>Оцените видео</h2>
+            <div class="rating-stars">
+                <span class="star" data-value="1">★</span>
+                <span class="star" data-value="2">★</span>
+                <span class="star" data-value="3">★</span>
+                <span class="star" data-value="4">★</span>
+                <span class="star" data-value="5">★</span>
+                <span class="star" data-value="6">★</span>
+                <span class="star" data-value="7">★</span>
+                <span class="star" data-value="8">★</span>
+                <span class="star" data-value="9">★</span>
+                <span class="star" data-value="10">★</span>
+            </div>
+            <p>Ваша оценка: <span id="selected-rating">0</span>/10</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="static/js/video.js"></script>
+{% endblock %}

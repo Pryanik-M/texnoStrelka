@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block styles %}
-
 <link rel="stylesheet" href="../static/css/movie_page.css">
 {% endblock %}
 
@@ -14,11 +13,13 @@
     </div>
     <div class="movie__text-container">
         <p class="movie__text">{{ movie_description }}</p>
-        <button onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">Смотреть фильм</button>
+        <button class="movie__watch-button" onclick="location.href='{{ url_for('movie') }}?name=videos/primer.mp4'">
+            Смотреть фильм
+        </button>
         {% if flag %}
-        <form method="POST">
+        <form method="POST" class="comment-form">
             <textarea name="comment_text" placeholder="Ваш комментарий" required></textarea>
-            <button type="submit">Отправить</button>
+            <button type="submit" class="comment-submit-button">Отправить</button>
         </form>
         {% endif %}
         <div class="comments">
@@ -45,3 +46,4 @@
     </div>
 </div>
 {% endblock %}
+

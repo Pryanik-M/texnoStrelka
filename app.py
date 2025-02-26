@@ -222,7 +222,7 @@ def profile():
 @app.route('/movie')
 def movie():
     video_path = request.args.get('name', 'videos/primer.mp4')
-    return render_template('movie.html', name=video_path)
+    return render_template('video.html', name=video_path)
 
 
 @app.route('/movie_page', methods=['GET', 'POST'])
