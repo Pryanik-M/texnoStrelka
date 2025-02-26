@@ -22,6 +22,66 @@
 .movie__text{
 }
 
+/* Кнопка "Смотреть фильм" */
+.movie__watch-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 50px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(90deg, #ff5c4d, #ff1a1a);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.movie__watch-button:hover {
+    background: linear-gradient(90deg, #ff1a1a, #ff5c4d);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.movie__watch-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Форма комментария */
+.comment-form {
+    margin-top: 20px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    resize: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.comment-submit-button {
+    background-color: #ff5c4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.comment-submit-button:hover {
+    background-color: #ff1a1a;
+}
+
 .comments {
     margin-top: 2rem;
     padding: 1rem;
