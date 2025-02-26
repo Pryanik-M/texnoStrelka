@@ -219,10 +219,33 @@ def profile():
     return render_template('profile.html', name=current_user.name, surname=current_user.surname,
                            age=current_user.age, email=current_user.email, image='static/image/profile_rev.png')
 
-@app.route('/movie')
+@app.route('/movie', methods=['GET', 'POST'])
 def movie():
-    video_path = request.args.get('name', 'videos/primer.mp4')
-    return render_template('movie.html', name=video_path)
+    # video_path = request.args.get('name', 'videos/primer.mp4')
+    # return render_template('movie.html', name=video_path)
+    flag_user = current_user.is_authenticated
+    name = request.args.get('name')
+
+    # Загрузка комментариев для текущего фильма
+    comments = Comment.query.filter_by(movie_name=name).order_by(Comment.timestamp.desc()).all()
+
+    # Обработка POST-запроса (отправка комментария)
+    if request.method == 'POST' and flag_user:
+        comment_text = request.form.get('comment_text')  # Название фильма больше не берем из формы
+        if comment_text:
+            new_comment = Comment(
+                user_id=current_user.id,
+                movie_name=name,  # Берем название из текущего контекста
+                text=comment_text
+            )
+            db.session.add(new_comment)
+            db.session.commit()
+            return redirect(url_for('movie', name=name))
+
+    return render_template('movie.html',
+                           movie_name=name,
+                           comments=comments,
+                           flag=flag_user)
 
 
 @app.route('/movie_page', methods=['GET', 'POST'])

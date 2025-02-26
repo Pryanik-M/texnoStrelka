@@ -19,23 +19,25 @@
             </iframe>
         </div>
         <div class="comments-section">
-            <h2>Комментарии</h2>
-                {% if comments %}
-                    {% for comment in comments %}
-                        <div class="comments-list" id="comments-list">
-                            <div class="comment__avatar">
-                                <img src="static/image/profile-rev.png" alt="Аватар" class="comment__avatar-img"
-                                    onerror="this.onerror=null; this.src='static/avatars/default-avatar.jpg';">
-                            </div>
-                            <div class="comment__content">
-                                <div class="comment__header">
-                                    <h4 class="comment__username">{{ comment.user.name }}</h4>
-                                        <small class="comment__timestamp">{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
-                                </div>
-                                <p class="comment__text">{{ comment.text }}</p>
-                            </div>
+    <h2>Комментарии</h2>
+    {% if comments %}
+        <div class="comments-list" id="comments-list">
+            {% for comment in comments %} <!-- Ограничиваем количество комментариев до 3 -->
+                <div class="comment">
+                    <div class="comment__avatar">
+                        <img src="static/image/profile-rev.png" alt="Аватар" class="comment__avatar-img"
+                            onerror="this.onerror=null; this.src='static/avatars/default-avatar.jpg';">
+                    </div>
+                    <div class="comment__content">
+                        <div class="comment__header">
+                            <h4 class="comment__username">{{ comment.user.name }}</h4>
+                            <small class="comment__timestamp">{{ comment.timestamp.strftime('%d.%m.%Y %H:%M') }}</small>
                         </div>
-        {% endfor %}
+                        <p class="comment__text">{{ comment.text }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     {% else %}
         <p class="comments__empty">Комментариев пока нет.</p>
     {% endif %}
